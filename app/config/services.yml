@@ -1,0 +1,13 @@
+services:
+    header_response_listener:
+        class: AppBundle\EventListener\HeaderResponseListener
+        tags:
+            - {name: kernel.event_subscriber}
+
+    layer_manager:
+        class: AppBundle\Manager\LayerManager
+        arguments: ["@doctrine.orm.entity_manager", "%storage_path%"]
+
+    manifest_manager:
+        class: AppBundle\Manager\ManifestManager
+        arguments: ["@doctrine.orm.entity_manager"]
