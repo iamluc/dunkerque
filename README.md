@@ -9,7 +9,7 @@ Written in PHP with Symfony.
 
 # INSTALL
 
-```
+```sh
 # Clone repository
 git clone https://github.com/iamluc/dunkerque
 
@@ -21,6 +21,9 @@ composer install
 
 # Initialize database
 php app/console doctrine:schema:create
+
+# Create a user
+php app/console fos:user:create
 ```
 
 Note: by default, your database and your layers will be stored in the cache folder (`app/cache`)

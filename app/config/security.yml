@@ -1,22 +1,38 @@
 security:
 
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
-        in_memory:
-            memory:
-                users:
-                    test:
-                        password: test
-                        roles: ROLE_USER
+        fos_userbundle:
+            id: fos_user.user_provider.username
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
+        api:
+            pattern: ^/v2/
             anonymous: false
             stateless: true
-            http_basic: ~
+            http_basic:
+                provider: fos_userbundle
+
+        main:
+            anonymous: true
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: security.csrf.token_manager
+            logout:       true
+            anonymous:    true
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }

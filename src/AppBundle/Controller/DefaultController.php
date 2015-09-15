@@ -17,4 +17,14 @@ class DefaultController extends Controller
     {
         return [];
     }
+
+    /**
+     * @Template("default/manifests.html.twig")
+     */
+    public function manifestsListAction()
+    {
+        return [
+            'manifests' => $this->get('doctrine')->getRepository('AppBundle:Manifest')->findAll(),
+        ];
+    }
 }

@@ -1,24 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block body %}
-    <div id="wrapper">
-        <div id="container">
-            <div id="welcome">
-                <h1>Welcome to Dunkerque</h1>
-                <p>Your docker registry !</p>
-            </div>
-        </div>
+{% block content %}
+    <div id="welcome">
+        <h1>Welcome to Dunkerque</h1>
+        <p>Your docker registry !</p>
     </div>
-{% endblock %}
 
-{% block stylesheets %}
-<style>
-    body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
-    h1 { line-height: 1.2; margin: 0 0 .5em; }
-    h1 { font-size: 36px; }
-    p { margin: 0 0 1em 0; }
-    #wrapper { background: #FFF; margin: 1em auto; max-width: 800px; width: 95%; }
-    #container { padding: 2em; }
-    #welcome, #status { margin-bottom: 2em; }
-</style>
+    {% if is_granted('ROLE_USER') %}
+        {{ render(controller('AppBundle:Default:manifestsList')) }}
+    {% endif %}
+
 {% endblock %}
