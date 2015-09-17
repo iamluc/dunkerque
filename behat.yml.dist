@@ -1,0 +1,26 @@
+default:
+  suites:
+    default:
+      contexts:
+        - RestContext
+        - EntityContext
+        - ProfileContext
+        - Behat\MinkExtension\Context\MinkContext
+
+  extensions:
+    Behat\Symfony2Extension:
+      kernel:
+        debug: true
+        env: "test"
+
+    Behat\MinkExtension:
+      sessions:
+        default:
+          symfony2: ~
+
+    Sanpi\Behatch\Extension: ~
+
+    Knp\FriendlyContexts\Extension:
+      entities:
+        namespaces:
+          - AppBundle

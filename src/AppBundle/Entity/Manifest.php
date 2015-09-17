@@ -49,7 +49,7 @@ class Manifest
      */
     private $content;
 
-    public function __construct($name, $tag, $digest, $content)
+    public function __construct($name = null, $tag = null, $digest = null, $content = null)
     {
         $this->name = $name;
         $this->tag = $tag;
@@ -122,7 +122,7 @@ class Manifest
      *
      * @return Manifest
      */
-    public function setDiget($digest)
+    public function setDigest($digest)
     {
         $this->digest = $digest;
 
