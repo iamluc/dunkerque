@@ -1,0 +1,23 @@
+app:
+    image: iamluc/symfony
+    volumes:
+        - .:/var/www/html
+        # To speed up composer
+        #- ~/.composer:/var/www/.composer
+
+    environment:
+        - DOCKER_ENV=dev
+    ports:
+        # Adapt to you need
+        - 80:80
+
+    # Uncomment lines below to enable Blackfire
+    # You have to export env variables (BLACKFIRE_SERVER_ID and BLACKFIRE_SERVER_TOKEN) before running docker-compose
+#    links:
+#        - blackfire:blackfire
+#
+#blackfire:
+#    image: blackfire/blackfire
+#    environment:
+#        - BLACKFIRE_SERVER_ID
+#        - BLACKFIRE_SERVER_TOKEN
