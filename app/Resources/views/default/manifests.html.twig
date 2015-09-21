@@ -1,19 +1,16 @@
-<div>
-    <h1>Manifests</h1>
-    <table>
-        <thead>
+<table class="table table-striped ">
+    <thead>
+        <tr>
+            <th>{{ 'manifest.name'|trans }}</th>
+            <th>{{ 'manifest.tag'|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for manifest in manifests %}
             <tr>
-                <th>Name</th>
-                <th>Tag</th>
+                <td>{{ manifest.name }}</td>
+                <td>{{ manifest.tag }}</td>
             </tr>
-        </thead>
-        <tbody>
-            {% for manifest in manifests %}
-                <tr>
-                    <td>{{ manifest.name }}</td>
-                    <td>{{ manifest.tag }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,8 @@
+welcome_user: "Welcome %username%"
+
+welcome_dunkerque.title: "Welcome to Dunkerque"
+welcome_dunkerque.body: "Your new docker registry !"
+
+last_manifests: "Last images"
+manifest.name: "Name"
+manifest.tag: "Tag"

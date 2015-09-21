@@ -1,13 +1,26 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <div id="welcome">
-        <h1>Welcome to Dunkerque</h1>
-        <p>Your docker registry !</p>
-    </div>
 
     {% if is_granted('ROLE_USER') %}
-        {{ render(controller('AppBundle:Default:manifestsList')) }}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'last_manifests'|trans }}</h3>
+            </div>
+            <div class="panel-body">
+                {{ render(controller('AppBundle:Default:manifestsList')) }}
+            </div>
+        </div>
+
+    {% else %}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'welcome_dunkerque.title'|trans }}</h3>
+            </div>
+            <div class="panel-body">
+                {{ 'welcome_dunkerque.body'|trans }}
+            </div>
+        </div>
     {% endif %}
 
 {% endblock %}

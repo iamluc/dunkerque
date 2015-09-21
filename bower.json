@@ -1,0 +1,6 @@
+{
+  "name": "iamluc/dunkerque",
+  "dependencies": {
+    "bootstrap-sass-official": "~3.3.0"
+  }
+}
