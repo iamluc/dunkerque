@@ -1,7 +1,7 @@
 Dunkerque
 =========
 
-Docker registry with admin interface.
+Docker hub & registry.
 
 Written in PHP with Symfony.
 

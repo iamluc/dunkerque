@@ -2,7 +2,15 @@
     "name": "iamluc/dunkerque",
     "license": "MIT",
     "type": "project",
-    "description": "Docker registry with admin interface",
+    "description": "Docker hub & registry",
+    "keywords": ["docker", "hub", "registry"],
+    "authors": [
+        {
+            "name": "Luc Vieillescazes",
+            "email": "luc@vieillescazes.net",
+            "role": "Developer"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "": "src/",
