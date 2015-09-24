@@ -8,6 +8,13 @@ services:
         class: AppBundle\Manager\LayerManager
         arguments: ["@doctrine.orm.entity_manager", "%storage_path%"]
 
-    manifest_manager:
-        class: AppBundle\Manager\ManifestManager
-        arguments: ["@doctrine.orm.entity_manager"]
+    repository_voter:
+        class: AppBundle\Security\Voter\RepositoryVoter
+        arguments: ["@doctrine.orm.entity_manager", "@security.access.role_hierarchy_voter", "@logger"]
+        tags:
+            - {name: security.voter}
+
+    form.type.repository:
+        class: AppBundle\Form\RepositoryType
+        tags:
+            - {name: form.type, alias: "repository"}

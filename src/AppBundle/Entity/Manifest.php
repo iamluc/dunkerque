@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Manifest.
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ManifestRepository")
  */
 class Manifest
 {
@@ -22,11 +22,12 @@ class Manifest
     private $id;
 
     /**
-     * @var string
+     * @var Repository
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Repository", cascade={"persist"})
+     * @ORM\JoinColumn(name="repository_id", referencedColumnName="id", nullable=false)
      */
-    private $name;
+    private $repository;
 
     /**
      * @var string
@@ -49,12 +50,9 @@ class Manifest
      */
     private $content;
 
-    public function __construct($name = null, $tag = null, $digest = null, $content = null)
+    public function __construct(Repository $repository = null)
     {
-        $this->name = $name;
-        $this->tag = $tag;
-        $this->digest = $digest;
-        $this->content = $content;
+        $this->repository = $repository;
     }
 
     /**
@@ -68,39 +66,21 @@ class Manifest
     }
 
     /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Manifest
+     * @return Repository
      */
-    public function setName($name)
+    public function getRepository()
     {
-        $this->name = $name;
-
-        return $this;
+        return $this->repository;
     }
 
     /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set tag.
-     *
-     * @param string $tag
+     * @param Repository $repository
      *
      * @return Manifest
      */
-    public function setTag($tag)
+    public function setRepository($repository)
     {
-        $this->tag = $tag;
+        $this->repository = $repository;
 
         return $this;
     }
@@ -113,20 +93,6 @@ class Manifest
     public function getTag()
     {
         return $this->tag;
-    }
-
-    /**
-     * Set digest.
-     *
-     * @param string $digest
-     *
-     * @return Manifest
-     */
-    public function setDigest($digest)
-    {
-        $this->digest = $digest;
-
-        return $this;
     }
 
     /**
@@ -149,6 +115,10 @@ class Manifest
     public function setContent($content)
     {
         $this->content = $content;
+        $this->digest = $this->computeDigest($content);
+
+        $decoded = json_decode($content, true);
+        $this->tag = $decoded['tag'];
 
         return $this;
     }
@@ -161,5 +131,32 @@ class Manifest
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Return the digest of the provided manifest.
+     *
+     * @param $manifest
+     *
+     * @return string
+     */
+    protected function computeDigest($manifest)
+    {
+        // See func `ParsePrettySignature` in https://github.com/docker/libtrust/blob/master/jsonsign.go
+        $decoded = json_decode($manifest, true);
+        $formatLength = null;
+        $formatTail = null;
+        foreach ($decoded['signatures'] as $signature) {
+            $header = json_decode(base64_decode($signature['protected']), true);
+
+            $formatLength = $header['formatLength'];
+            $formatTail = $header['formatTail'];
+        }
+
+        // Manifest without signatures
+        $manifest = substr($manifest, 0, $formatLength).base64_decode($formatTail);
+
+        // Digest
+        return 'sha256:'.hash('sha256', $manifest);
     }
 }

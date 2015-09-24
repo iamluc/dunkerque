@@ -1,0 +1,53 @@
+.pager-filter-container {
+  display: none;
+  padding-top: 5px;
+  margin-left: -15px;
+}
+
+input:focus ~ .pager-filter-container, .pager-filter-container:hover {
+  display: block;
+  z-index: 1000;
+  position: absolute;
+  padding-bottom: 160px; /* Large padding-bottom to block mouseout */
+}
+
+.pager-filter-container-body {
+  position: relative;
+  background-color: white;
+  border: 1px solid #DDDDDD;
+  padding: 20px 40px;
+  -webkit-border-radius: 0px 0px 5px 5px;
+  -moz-border-radius: 0px 0px 5px 5px;
+  border-radius: 0px 0px 5px 5px;
+}
+
+.pager-filter-container-body:after, .pager-filter-container-body:before {
+  bottom: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.pager-filter-container-body:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #ffffff;
+  border-width: 10px;
+  left: 15%;
+  margin-left: -10px;
+}
+
+.pager-filter-container-body:before {
+  border-color: rgba(221, 221, 221, 0);
+  border-bottom-color: #DDDDDD;
+  border-width: 11px;
+  left: 15%;
+  margin-left: -11px;
+}
+
+.masked {
+  position: absolute;
+  left: -500px;
+}

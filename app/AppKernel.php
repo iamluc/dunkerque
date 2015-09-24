@@ -20,6 +20,7 @@ class AppKernel extends Kernel
 
             // Third-party
             new FOS\UserBundle\FOSUserBundle(),
+            new Datatheke\Bundle\PagerBundle\DatathekePagerBundle(),
 
             // App
             new AppBundle\AppBundle(),

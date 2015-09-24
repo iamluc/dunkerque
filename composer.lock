@@ -4,8 +4,79 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0172559a5de3b9f43bf8a8367a4f2337",
+    "hash": "9197b01dcf98c375cf63c0ba1bfdea2e",
     "packages": [
+        {
+            "name": "datatheke/pager-bundle",
+            "version": "v0.3.14",
+            "target-dir": "Datatheke/Bundle/PagerBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/datatheke/DatathekePagerBundle.git",
+                "reference": "ccae201b4743a98287dc7eaa8a34c1aab7dbde58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/datatheke/DatathekePagerBundle/zipball/ccae201b4743a98287dc7eaa8a34c1aab7dbde58",
+                "reference": "ccae201b4743a98287dc7eaa8a34c1aab7dbde58",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/config": "~2.3",
+                "symfony/console": "~2.3",
+                "symfony/dependency-injection": "~2.3",
+                "symfony/form": "~2.3",
+                "symfony/framework-bundle": "~2.3",
+                "symfony/http-foundation": "~2.3",
+                "symfony/http-kernel": "~2.3",
+                "symfony/options-resolver": "~2.3",
+                "symfony/property-access": "~2.3",
+                "symfony/routing": "~2.3"
+            },
+            "require-dev": {
+                "doctrine/orm": "~2.3",
+                "ext-pdo_sqlite": "*",
+                "jms/serializer": "~0.16"
+            },
+            "suggest": {
+                "doctrine/doctrine-bundle": "To use ORMQueryBuilderAdapter and ORMEntityAdapter",
+                "doctrine/mongodb-odm-bundle": "To use MongoDBQueryBuilderAdapter and MongoDBDocumentAdapter",
+                "doctrine/orm": "To use ORMQueryBuilderAdapter and ORMEntityAdapter",
+                "jms/serializer-bundle": "To serialize Pager and DataGrid"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Datatheke\\Bundle\\PagerBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "iamluc",
+                    "email": "luc@vieillescazes.net"
+                }
+            ],
+            "description": "Pager & DataGrid bundle for Symfony2",
+            "homepage": "https://github.com/datatheke/DatathekePagerBundle",
+            "keywords": [
+                "Dynatable",
+                "Flexigrid",
+                "autocomplete",
+                "bootgrid",
+                "datagrid",
+                "datatables",
+                "jqgrid",
+                "pager",
+                "paginator",
+                "typeahead"
+            ],
+            "time": "2015-04-15 11:05:21"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.2.7",

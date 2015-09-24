@@ -19,12 +19,38 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Template("default/manifests.html.twig")
+     * @Template("default/last_public_repositories.html.twig")
      */
-    public function manifestsListAction()
+    public function lastPublicRepositoriesAction()
     {
+        $repositories = $this->get('doctrine')->getRepository('AppBundle:Repository')->getLatestPublic();
+
         return [
-            'manifests' => $this->get('doctrine')->getRepository('AppBundle:Manifest')->findAll(),
+            'repositories' => $repositories,
+        ];
+    }
+
+    /**
+     * @Template("default/most_stared_repositories.html.twig")
+     */
+    public function mostStaredRepositoriesAction()
+    {
+        $repositories = $this->get('doctrine')->getRepository('AppBundle:Repository')->getMostStared();
+
+        return [
+            'repositories' => $repositories,
+        ];
+    }
+
+    /**
+     * @Template("default/most_pulled_repositories.html.twig")
+     */
+    public function mostPulledRepositoriesAction()
+    {
+        $repositories = $this->get('doctrine')->getRepository('AppBundle:Repository')->getMostPulled();
+
+        return [
+            'repositories' => $repositories,
         ];
     }
 }

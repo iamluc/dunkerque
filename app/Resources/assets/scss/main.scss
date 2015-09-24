@@ -1,1 +1,10 @@
 @import "_bootstrap";
+@import "pager";
+
+.panel-body > ul {
+    padding-left: 10px;
+}
+
+li {
+    list-style: none;
+}

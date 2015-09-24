@@ -1,0 +1,37 @@
+{% extends 'layout.html.twig' %}
+
+{% import 'DatathekePagerBundle:Pager:bootstrap3.html.twig' as helper %}
+{% import 'macros.html.twig' as macros %}
+{% block content %}
+    <h1>{{ 'repositories'|trans }}</h1>
+
+    <form action="{{ pager_form_path(pager) }}" method="post">
+        {{ helper.toolbar(pager) }}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ helper.orderBy(pager, 'name', 'repository.name'|trans) }}</th>
+                    <th>{{ helper.orderBy(pager, 'stars', 'repository.stars'|trans) }}</th>
+                    <th>{{ helper.orderBy(pager, 'pulls', 'repository.pulls'|trans) }}</th>
+                    <th>{{ helper.orderBy(pager, 'pulls', 'repository.is_private'|trans) }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for repo in pager.items %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('repository', {name: repo.name}) }}">{{ repo.name }}</a>
+                            <div><em>{{ repo.title }}</em></div>
+                        </td>
+                        <td>{{ repo.stars }} <span class="glyphicon glyphicon-star"></span></td>
+                        <td>{{ repo.pulls }} <span class="glyphicon glyphicon-download"></span></td>
+                        <td>{{ macros.repository_status(repo) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {{ helper.paginate(pager) }}
+    </form>
+ {% endblock %}

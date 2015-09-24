@@ -5,6 +5,8 @@ use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Knp\FriendlyContexts\Context\EntityContext as BaseEntityContext;
 
+use AppBundle\Entity\Manifest;
+
 class EntityContext extends BaseEntityContext implements KernelAwareContext
 {
     use KernelDictionary;
@@ -21,8 +23,8 @@ class EntityContext extends BaseEntityContext implements KernelAwareContext
         $headers = array_shift($rows);
 
         foreach ($rows as $row) {
-            $values     = array_combine($headers, $row);
-            $entity     = new $entityName;
+            $values = array_combine($headers, $row);
+            $entity = new $entityName;
             $reflection = new \ReflectionClass($entity);
 
             // Encode password
@@ -33,20 +35,40 @@ class EntityContext extends BaseEntityContext implements KernelAwareContext
                 $this
                     ->getRecordBag()
                     ->getCollection($reflection->getName())
-                    ->attach($entity, $values)
-                ;
+                    ->attach($entity, $values);
                 $reflection = $reflection->getParentClass();
             } while (false !== $reflection);
 
             $this
                 ->getEntityHydrator()
                 ->hydrate($this->getEntityManager(), $entity, $values)
-                ->completeRequired($this->getEntityManager(), $entity)
-            ;
+                ->completeRequired($this->getEntityManager(), $entity);
 
             $this->getEntityManager()->persist($entity);
         }
 
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @Given I have manifests:
+     */
+    public function iHaveManifests(TableNode $table)
+    {
+        $manifestsPath = __DIR__.'/../fixtures/manifests/';
+        $em = $this->getEntityManager();
+
+        foreach ($table->getRows() as $row) {
+
+            $content = file_get_contents($manifestsPath.$row[0]);
+            $repository = $em->getRepository('AppBundle:Repository')->findOneByName(json_decode($content, true)['name']);
+
+            $manifest = new Manifest($repository);
+            $manifest->setContent($content);
+
+            $em->persist($manifest);
+        }
+
+        $em->flush();
     }
 }

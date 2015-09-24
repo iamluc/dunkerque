@@ -29,9 +29,9 @@ class LayerManager
         $this->om->flush();
     }
 
-    public function create($name)
+    public function create()
     {
-        return new Layer($name);
+        return new Layer();
     }
 
     public function write(Layer $layer, $content)
@@ -42,6 +42,11 @@ class LayerManager
         }
 
         $this->fs->dumpFile($path, $content);
+    }
+
+    public function computeDigest(Layer $layer)
+    {
+        return 'sha256:'.hash_file('sha256', $this->getContentPath($layer));
     }
 
     public function getContentPath(Layer $layer)

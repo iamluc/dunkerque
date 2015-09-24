@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav">
                 <li>
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <a href="#">
+                        <a href="{{ path('account', {account: app.user.username}) }}">
                             <span class="glyphicon glyphicon-home"></span>
                             {{ 'welcome_user'|trans({'%username%': app.user.username}) }}
                         </a>

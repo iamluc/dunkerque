@@ -13,6 +13,10 @@ use Rhumsaa\Uuid\Uuid;
  */
 class Layer
 {
+    const STATUS_PENDING = 1;
+    const STATUS_PARTIAL = 2;
+    const STATUS_COMPLETE = 3;
+
     /**
      * @var int
      *
@@ -21,13 +25,6 @@ class Layer
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
 
     /**
      * According to http://docs.docker.com/registry/spec/api/
@@ -46,9 +43,15 @@ class Layer
      */
     private $digest;
 
-    public function __construct($name, $uuid = null)
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="integer")
+     */
+    private $status = self::STATUS_PENDING;
+
+    public function __construct($uuid = null)
     {
-        $this->name = $name;
         $this->uuid = $uuid ?: Uuid::uuid4()->toString();
     }
 
@@ -60,16 +63,6 @@ class Layer
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
@@ -104,5 +97,25 @@ class Layer
     public function getDigest()
     {
         return $this->digest;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     *
+     * @return Layer
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
     }
 }

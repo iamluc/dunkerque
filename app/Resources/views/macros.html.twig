@@ -1,0 +1,13 @@
+{% macro repository_status(repository) %}
+    {% if repository.private %}
+        <span class="label label-danger">
+                {{ 'repository.private'|trans }}
+            <span class="glyphicon glyphicon-lock"></span>
+            </span>
+    {% else %}
+        <span class="label label-success">
+                {{ 'repository.public'|trans }}
+            <span class="glyphicon glyphicon-share"></span>
+            </span>
+    {% endif %}
+{% endmacro %}

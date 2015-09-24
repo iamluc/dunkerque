@@ -1,0 +1,29 @@
+{% extends 'layout.html.twig' %}
+
+{% import 'macros.html.twig' as macros %}
+
+{% block content %}
+    <span class="pull-right">
+        {{ macros.repository_status(repository) }}
+    </span>
+
+    <ol class="breadcrumb">
+        <li><a href="{{ path('account', {account: repository.owner.username}) }}">{{ repository.owner.username }}</a></li>
+        <li class="active">{{ repository.name }}</li>
+    </ol>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            {{ 'repository.informations'|trans }}
+        </div>
+        <div class="panel-body">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+            {% if is_granted('REPO_WRITE', repository) %}
+                <button type="submit" class="btn btn-primary">{{ 'save'|trans }}</button>
+            {% endif %}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
