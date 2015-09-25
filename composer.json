@@ -73,7 +73,12 @@
         "symfony-web-dir": "web",
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
+            "file": "app/config/parameters.yml",
+            "env-map": {
+                "storage_path": "DUNKERQUE_STORAGE_PATH",
+                "database_path": "DUNKERQUE_DATABASE_PATH",
+                "secret": "DUNKERQUE_SECRET"
+            }
         }
     }
 }
