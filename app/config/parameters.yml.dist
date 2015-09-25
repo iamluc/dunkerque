@@ -1,5 +1,5 @@
 parameters:
-    database_path:     "%storage_path%/dunkerke.db3"
+    database_path:     "%storage_path%/dunkerque.db3"
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
