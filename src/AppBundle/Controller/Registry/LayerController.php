@@ -105,7 +105,7 @@ class LayerController extends Controller
 
         $digest = $this->get('layer_manager')->computeDigest($layer);
         if ($digest !== $request->query->get('digest')) {
-            throw new BadRequestHttpException('Digest does not match with received data');
+            throw new BadRequestHttpException(sprintf('Digest does not match with received data (computed: "%s")', $digest));
         }
 
         $layer->setDigest($digest);

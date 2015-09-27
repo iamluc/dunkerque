@@ -8,6 +8,7 @@ use Sanpi\Behatch\HttpCall\Request;
 class RestContext extends BaseRestContext
 {
     protected $headers = [];
+    protected $variables = [];
 
     private $request;
 
@@ -26,6 +27,14 @@ class RestContext extends BaseRestContext
         $this->headers = [];
         $this->iAddHeaderEqualTo('PHP_AUTH_USER', null);
         $this->iAddHeaderEqualTo('PHP_AUTH_PW', null);
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function beforeScenario(BeforeScenarioScope $scope)
+    {
+        $this->variables = [];
     }
 
     /**
@@ -72,5 +81,33 @@ class RestContext extends BaseRestContext
         $actual = $this->request->getContent();
         $message = "The content of file '$filename' is not equal to the response of the current page";
         $this->assertEquals(file_get_contents($fixturesPath.$filename), $actual, $message);
+    }
+
+    /**
+     * @Then I store value of header :header to variable :name
+     */
+    public function iStoreValueOfHeaderToVariable($header, $name)
+    {
+        $this->variables[$name] = $this->request->getHttpHeader($header);
+    }
+
+    /**
+     * @Then I send a :method request to :url with body :filename
+
+     */
+    public function iSendARequestToWithBody($method, $url, $filename)
+    {
+        $fixturesPath = __DIR__.'/../fixtures/';
+
+        $vars = array_map(function ($val) {return '{'.$val.'}';}, array_keys($this->variables));
+        $url = strtr($url, array_combine($vars, array_values($this->variables)));
+
+        return $this->request->send(
+            $method,
+            $this->locatePath($url),
+            [],
+            [],
+            file_get_contents($fixturesPath.$filename)
+        );
     }
 }
