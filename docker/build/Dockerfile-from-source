@@ -2,14 +2,15 @@ FROM iamluc/symfony
 
 MAINTAINER Luc Vieillescazes <luc@vieillescazes.net>
 
+COPY . ./
+
 RUN rm index.html \
-  && wget -O - https://github.com/iamluc/dunkerque/archive/master.tar.gz | tar xz --strip 1 \
   && composer install --no-interaction --no-dev --no-scripts \
   && rm -Rf app/cache/* app/logs/* .composer web/app_dev.php \
   && mkdir /data \
   && chown www-data:www-data app/cache app/logs /data
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY docker/build/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 VOLUME ["/var/www/html/app/cache", "/var/www/html/app/logs", "/data"]
 
