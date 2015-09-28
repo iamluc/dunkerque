@@ -16,7 +16,7 @@ class ManifestPullListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'manifest.pull' => ['onManifestPull']
+            'manifest.pull' => ['onManifestPull'],
         ];
     }
 

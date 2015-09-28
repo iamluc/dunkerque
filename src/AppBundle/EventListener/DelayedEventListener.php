@@ -14,7 +14,7 @@ class DelayedEventListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'delayed' => ['onDelayedEvent']
+            'delayed' => ['onDelayedEvent'],
         ];
     }
 
