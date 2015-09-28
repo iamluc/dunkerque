@@ -18,3 +18,14 @@ services:
         class: AppBundle\Form\RepositoryType
         tags:
             - {name: form.type, alias: "repository"}
+
+    delayed_event_listener:
+        class: AppBundle\EventListener\DelayedEventListener
+        tags:
+            - {name: kernel.event_subscriber}
+
+    manifest_pull_listener:
+        class: AppBundle\EventListener\ManifestPullListener
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - {name: kernel.event_subscriber}

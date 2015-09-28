@@ -40,4 +40,18 @@ class ManifestRepository extends EntityRepository
         $this->_em->persist($manifest);
         $this->_em->flush();
     }
+
+    public function incrementPulls(Manifest $manifest)
+    {
+        $this->_em
+            ->createQuery(<<<DQL
+UPDATE AppBundle:Repository r
+SET r.pulls = r.pulls + 1
+WHERE r.id = :repository
+DQL
+        )
+            ->setParameter('repository', $manifest->getRepository()->getId())
+            ->execute()
+        ;
+    }
 }

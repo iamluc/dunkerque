@@ -4,6 +4,8 @@ namespace AppBundle\Controller\Registry;
 
 use AppBundle\Entity\Manifest;
 use AppBundle\Entity\Repository;
+use AppBundle\Event\DelayedEvent;
+use AppBundle\Event\ManifestEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -30,6 +32,10 @@ class ManifestController extends Controller
      */
     public function getAction(Repository $repository, Manifest $manifest)
     {
+        // Dispatch event
+        $event = new ManifestEvent($manifest);
+        $this->get('event_dispatcher')->dispatch('delayed', new DelayedEvent('kernel.terminate', 'manifest.pull', $event));
+
         return new Response($manifest->getContent(), Response::HTTP_OK, [
             'Content-Type' => 'application/json; charset=utf-8',
         ]);

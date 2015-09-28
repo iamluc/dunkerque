@@ -5,7 +5,10 @@
     <div class="panel-body">
         <ul>
             {% for repo in repositories %}
-                <li><a href="{{ path('repository', {name: repo.name}) }}">{{ repo.name }}</a></li>
+                <li>
+                    <a href="{{ path('repository', {name: repo.name}) }}">{{ repo.name }}</a>
+                    <span class="pull-right">{{ repo.stars }} <span class="glyphicon glyphicon-star"></span></span>
+                </li>
             {% endfor %}
         </ul>
     </div>
