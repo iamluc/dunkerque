@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h2>{{ 'repositories'|trans }}</h2>
+    {{ datagrid_content(datagrid) }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ datagrid_stylesheets(datagrid, {no_external: true}) }}
+{% endblock %}

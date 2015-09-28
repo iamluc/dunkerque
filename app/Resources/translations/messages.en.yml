@@ -15,3 +15,5 @@ repository.is_private: "Private"
 repository.private: "Private"
 repository.public: "Public"
 repository.informations: "Informations"
+
+users: "Users"
