@@ -1,6 +1,10 @@
 Dunkerque
 =========
 
+[![Build Status](https://api.travis-ci.org/datatheke/DatathekePagerBundle.png?branch=master)](https://travis-ci.org/datatheke/DatathekePagerBundle)
+
+# About
+
 Docker hub & registry.
 
 Written in PHP with Symfony.
