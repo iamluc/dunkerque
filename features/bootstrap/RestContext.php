@@ -93,9 +93,8 @@ class RestContext extends BaseRestContext
 
     /**
      * @Then I send a :method request to :url with body :filename
-
      */
-    public function iSendARequestToWithBody($method, $url, $filename)
+    public function iSendARequestToWithBodyFilename($method, $url, $filename)
     {
         $fixturesPath = __DIR__.'/../fixtures/';
 
