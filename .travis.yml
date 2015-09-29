@@ -8,18 +8,13 @@ php:
     - 7.0
     - hhvm
 
-env:
-    - deps=low
-    - deps=high
-
 matrix:
     allow_failures:
         - php: hhvm
 
 before_script:
     - composer self-update
-    - if [ "$deps" = "high" ]; then composer install --prefer-source -n; fi;
-    - if [ "$deps" = "low" ]; then composer install --prefer-source --prefer-lowest --prefer-stable -n; fi;
+    - composer install --no-interaction
 
 script:
     - ./bin/behat
