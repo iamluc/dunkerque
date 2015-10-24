@@ -23,21 +23,21 @@ class RepositoryController extends Controller
      */
     public function indexAction(Request $request, Repository $repository)
     {
-        $write = $this->isGranted('REPO_WRITE', $repository);
+        if ($this->isGranted('REPO_WRITE', $repository)) {
+            $form = $this->createForm('repository', $repository);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $this->get('doctrine')->getManager()->flush();
 
-        $form = $this->createForm('repository', $repository, ['disabled' => !$write]);
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $this->get('doctrine')->getManager()->flush();
-
-            return $this->redirect($this->generateUrl('repository', [
-                'name' => $repository->getName(),
-            ]));
+                return $this->redirect($this->generateUrl('repository', [
+                    'name' => $repository->getName(),
+                ]));
+            }
         }
 
         return [
             'repository' => $repository,
-            'form' => $form->createView(),
+            'form' => isset($form) ? $form->createView() : null,
         ];
     }
 }

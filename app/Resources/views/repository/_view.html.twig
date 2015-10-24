@@ -1,0 +1,11 @@
+<h4>{{ 'repository.title'|trans }}</h4>
+
+<div class="well">
+    {{ repository.title|default(repository.name) }}
+</div>
+
+<h4>{{ 'repository.description'|trans }}</h4>
+
+<div class="well">
+    {{ repository.description|default('-') }}
+</div>

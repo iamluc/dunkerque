@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -71,10 +72,18 @@ class Repository
      */
     private $pulls = 0;
 
+    /**
+     * @var
+     *
+     * @ORM\OneToMany(targetEntity="Manifest", mappedBy="repository")
+     */
+    private $manifests;
+
     public function __construct($name = null, User $owner = null)
     {
         $this->name = $name;
         $this->owner = $owner;
+        $this->manifests = new ArrayCollection();
     }
 
     /**
@@ -246,5 +255,37 @@ class Repository
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getManifests()
+    {
+        return $this->manifests;
+    }
+
+    /**
+     * @param mixed $manifests
+     *
+     * @return $this
+     */
+    public function setManifests($manifests)
+    {
+        $this->manifests = $manifests;
+
+        return $this;
+    }
+
+    /**
+     * @param Manifest $manifest
+     *
+     * @return $this
+     */
+    public function addManifest(Manifest $manifest)
+    {
+        $this->manifests[] = $manifest;
+
+        return $this;
     }
 }

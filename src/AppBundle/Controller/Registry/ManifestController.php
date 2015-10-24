@@ -62,6 +62,10 @@ class ManifestController extends Controller
 
         $this->get('doctrine')->getRepository('AppBundle:Manifest')->save($manifest);
 
+        // Dispatch event
+        $event = new ManifestEvent($manifest);
+        $this->get('event_dispatcher')->dispatch('delayed', new DelayedEvent('kernel.terminate', 'manifest.push', $event));
+
         return new Response('', Response::HTTP_CREATED, [
             'Location' => $this->generateUrl('manifest_get', [
                 'name' => $manifest->getRepository()->getName(),

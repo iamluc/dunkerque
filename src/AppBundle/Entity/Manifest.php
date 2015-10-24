@@ -24,7 +24,7 @@ class Manifest
     /**
      * @var Repository
      *
-     * @ORM\ManyToOne(targetEntity="Repository", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Repository", inversedBy="manifests", cascade={"persist"})
      * @ORM\JoinColumn(name="repository_id", referencedColumnName="id", nullable=false)
      */
     private $repository;
@@ -50,9 +50,24 @@ class Manifest
      */
     private $content;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="pulls", type="integer")
+     */
+    private $pulls = 0;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private $updatedAt;
+
     public function __construct(Repository $repository = null)
     {
         $this->repository = $repository;
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -158,5 +173,45 @@ class Manifest
 
         // Digest
         return 'sha256:'.hash('sha256', $manifest);
+    }
+
+    /**
+     * @return int
+     */
+    public function getPulls()
+    {
+        return $this->pulls;
+    }
+
+    /**
+     * @param int $pulls
+     *
+     * @return $this
+     */
+    public function setPulls($pulls)
+    {
+        $this->pulls = $pulls;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     *
+     * @return $this
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 }
