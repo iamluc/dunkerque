@@ -11,9 +11,11 @@ app:
         # Adapt to you need
         - 80:80
 
+    links:
+        - rabbitmq:rabbitmq
+
     # Uncomment lines below to enable Blackfire
     # You have to export env variables (BLACKFIRE_SERVER_ID and BLACKFIRE_SERVER_TOKEN) before running docker-compose
-#    links:
 #        - blackfire:blackfire
 #
 #blackfire:
@@ -21,3 +23,21 @@ app:
 #    environment:
 #        - BLACKFIRE_SERVER_ID
 #        - BLACKFIRE_SERVER_TOKEN
+
+rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+        - RABBITMQ_DEFAULT_USER=dunkerque
+        - RABBITMQ_DEFAULT_PASS=dkpassword
+    ports:
+        - 15672:15672
+
+workerwebhook:
+    image: iamluc/symfony
+    volumes_from:
+        - app
+    links:
+        - rabbitmq:rabbitmq
+    environment:
+        - SYMFONY_ENV=dev
+    command: app/console dunkerque:broker:setup ; app/console swarrot:consume:webhook

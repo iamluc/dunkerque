@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class RepositoryType extends AbstractType
+class WebhookType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,9 +15,8 @@ class RepositoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description')
-            ->add('private', 'checkbox', ['required' => false])
+            ->add('name')
+            ->add('url')
         ;
     }
 
@@ -27,7 +26,7 @@ class RepositoryType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Repository',
+            'data_class' => 'AppBundle\Entity\Webhook',
         ));
     }
 
@@ -36,6 +35,6 @@ class RepositoryType extends AbstractType
      */
     public function getName()
     {
-        return 'repository';
+        return 'webhook';
     }
 }

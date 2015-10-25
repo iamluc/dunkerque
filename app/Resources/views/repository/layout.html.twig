@@ -1,0 +1,29 @@
+{% extends 'layout.html.twig' %}
+
+{% import 'macros.html.twig' as macros %}
+
+{% block content %}
+    <span class="pull-right">
+            {{ macros.repository_status(repository) }}
+        </span>
+
+    <ol class="breadcrumb">
+        <li><a href="{{ path('account', {account: repository.owner.username}) }}">{{ repository.owner.username }}</a></li>
+        <li class="active">{{ repository.name }}</li>
+    </ol>
+
+    <div class="tabs-menu">
+        <ul class="nav nav-tabs">
+            <li {% if active_tab == 'description' %}class="active"{% endif %}><a href="{{ path('repository', {name: repository.name}) }}">{{ 'repository.description'|trans }}</a></li>
+            {% if is_granted('REPO_WRITE', repository) %}
+                <li {% if active_tab == 'webhooks' %}class="active"{% endif %}><a href="{{ path('repository_webhooks', {name: repository.name}) }}">{{ 'repository.webhooks'|trans }}</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {% block tab_content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
