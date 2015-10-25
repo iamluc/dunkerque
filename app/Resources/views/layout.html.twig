@@ -5,6 +5,8 @@
 
     <div class="container">
         <div class="row">
+            {{ include('layout/notifications.html.twig') }}
+
             {% block content %}
                 {% block fos_user_content %}{% endblock %}
             {% endblock %}

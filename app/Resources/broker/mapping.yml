@@ -1,0 +1,13 @@
+/:
+    exchanges:
+        dk.manifest:
+            type: topic
+            durable: true
+
+    queues:
+        dk.manifest_webhook:
+            durable: true
+            bindings:
+                -
+                    exchange: dk.manifest
+                    routing_key: push

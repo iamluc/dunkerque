@@ -9,5 +9,12 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
+    # RabbitMQ
+    rabbitmq_host:     rabbitmq
+    rabbitmq_port:     5672
+    rabbitmq_login:    dunkerque
+    rabbitmq_password: dkpassword
+    rabbitmq_management_port: 15672
+
     # App
     storage_path:      "%kernel.cache_dir%"

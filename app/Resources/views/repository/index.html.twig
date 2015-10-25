@@ -1,52 +1,33 @@
-{% extends 'layout.html.twig' %}
+{% extends 'repository/layout.html.twig' %}
 
-{% import 'macros.html.twig' as macros %}
+{% set active_tab = 'description' %}
 
-{% block content %}
-    <span class="pull-right">
-        {{ macros.repository_status(repository) }}
-    </span>
-
-    <ol class="breadcrumb">
-        <li><a href="{{ path('account', {account: repository.owner.username}) }}">{{ repository.owner.username }}</a></li>
-        <li class="active">{{ repository.name }}</li>
-    </ol>
-
-    <div class="tabs-menu">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#">{{ 'repository.description'|trans }}</a></li>
-        </ul>
+{% block tab_content %}
+    <div class="col-md-8">
+        {% if is_granted('REPO_WRITE', repository) %}
+            {{ include('repository/_edit.html.twig') }}
+        {% else %}
+            {{ include('repository/_view.html.twig') }}
+        {% endif %}
     </div>
+    <div class="col-md-4">
+        <h4>{{ 'repository.pull'|trans }}</h4>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                {% if is_granted('REPO_WRITE', repository) %}
-                    {{ include('repository/_edit.html.twig') }}
-                {% else %}
-                    {{ include('repository/_view.html.twig') }}
-                {% endif %}
-            </div>
-            <div class="col-md-4">
-                <h4>{{ 'repository.pull'|trans }}</h4>
-
-                <div class="form-group">
-                    <input type="text" class="form-control" disabled value="docker pull {{ app.request.host }}/{{ repository.name }}">
-                </div>
-
-                <h4>{{ 'repository.tags'|trans }}</h4>
-
-                <ul class="list-group">
-                    {% for manifest in repository.manifests %}
-                        <li class="list-group-item">
-                            {{ manifest.tag }}
-                            <span class="pull-right">{{ manifest.pulls }} <span class="glyphicon glyphicon-download"></span></span>
-                            <div><span class="pull-right">{{ manifest.updatedAt|date }}</span></div>
-                            <div class="clearfix"></div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
+        <div class="form-group">
+            <input type="text" class="form-control" disabled value="docker pull {{ app.request.host }}/{{ repository.name }}">
         </div>
+
+        <h4>{{ 'repository.tags'|trans }}</h4>
+
+        <ul class="list-group">
+            {% for manifest in repository.manifests %}
+                <li class="list-group-item">
+                    {{ manifest.tag }}
+                    <span class="pull-right">{{ manifest.pulls }} <span class="glyphicon glyphicon-download"></span></span>
+                    <div><span class="pull-right">{{ manifest.updatedAt|date }}</span></div>
+                    <div class="clearfix"></div>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}

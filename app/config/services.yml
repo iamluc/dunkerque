@@ -19,6 +19,11 @@ services:
         tags:
             - {name: form.type, alias: "repository"}
 
+    form.type.webhook:
+        class: AppBundle\Form\WebhookType
+        tags:
+            - {name: form.type, alias: "webhook"}
+
     delayed_event_listener:
         class: AppBundle\EventListener\DelayedEventListener
         tags:
@@ -32,6 +37,10 @@ services:
 
     manifest_push_listener:
         class: AppBundle\EventListener\ManifestPushListener
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager", "@swarrot.publisher", "@serializer"]
         tags:
             - {name: kernel.event_subscriber}
+
+    mq.processor.webhook:
+        class: AppBundle\Broker\Processor\WebhookProcessor
+        arguments: ["@doctrine.orm.entity_manager"]

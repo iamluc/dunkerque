@@ -1,0 +1,25 @@
+swarrot:
+    provider: amqp_lib
+    default_connection: rabbitmq
+    enable_collector: %kernel.debug%
+    connections:
+        rabbitmq:
+            host: "%rabbitmq_host%"
+            port: "%rabbitmq_port%"
+            login: "%rabbitmq_login%"
+            password: "%rabbitmq_password%"
+            vhost: "/"
+    consumers:
+        webhook:
+            processor: mq.processor.webhook
+            queue: dk.manifest_webhook
+    messages_types:
+        manifest_push:
+            connection: rabbitmq
+            exchange: dk.manifest
+            routing_key: push
+    processors_stack:
+        signal_handler: ~
+        ack: ~
+        doctrine_connection: Swarrot\Processor\Doctrine\ConnectionProcessor
+        doctrine_object_manager: Swarrot\Processor\Doctrine\ObjectManagerProcessor

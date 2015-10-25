@@ -1,0 +1,51 @@
+{% extends 'repository/layout.html.twig' %}
+
+{% set active_tab = 'webhooks' %}
+
+{% import 'DatathekePagerBundle:Pager:bootstrap3.html.twig' as helper %}
+
+{% block tab_content %}
+    <h3>{{ 'webhook.list'|trans }}</h3>
+
+    <form action="{{ pager_form_path(pager) }}" method="post">
+        {{ helper.toolbar(pager) }}
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>{{ helper.orderBy(pager, 'name', 'webhook.name'|trans) }}</th>
+                <th>{{ helper.orderBy(pager, 'url', 'webhook.url'|trans) }}</th>
+                <th>{{ helper.orderBy(pager, 'lastCall', 'webhook.last_call'|trans) }}</th>
+                <th>{{ helper.orderBy(pager, 'lastStatus', 'webhook.last_status'|trans) }}</th>
+                <th>{{ 'delete'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for webhook in pager.items %}
+                <tr>
+                    <td>{{ webhook.name }}</td>
+                    <td>{{ webhook.url }}</td>
+                    <td>
+                        {% if webhook.lastCall %}
+                            {{ webhook.lastCall|date|default('-') }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ webhook.lastStatus|default('-') }}</td>
+                    <td><a href="{{ path('repository_webhooks_remove', {name: repository.name, id: webhook.id, _token: csrf_token('webhook_remove')}) }}" class="btn btn-danger btn-xs" onclick="return confirm('{{ 'webhook.confirm_remove'|trans }}')"><span class="glyphicon glyphicon-trash"></span></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {{ helper.paginate(pager) }}
+    </form>
+
+    <h3>{{ 'webhook.add'|trans }}</h3>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary pull-right">{{ 'add'|trans }}</button>
+    {{ form_end(form) }}
+{% endblock %}
