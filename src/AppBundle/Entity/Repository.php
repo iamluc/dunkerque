@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation as Serializer;
 
 /**
  * Repository.
@@ -26,6 +27,8 @@ class Repository
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     *
+     * @Serializer\Groups({"repository_build"})
      */
     private $name;
 
@@ -71,6 +74,15 @@ class Repository
      * @ORM\Column(name="pulls", type="integer")
      */
     private $pulls = 0;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="git_url", type="string", length=255, nullable=true)
+     *
+     * @Serializer\Groups({"repository_build"})
+     */
+    private $gitUrl;
 
     /**
      * @var
@@ -285,6 +297,26 @@ class Repository
     public function addManifest(Manifest $manifest)
     {
         $this->manifests[] = $manifest;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGitUrl()
+    {
+        return $this->gitUrl;
+    }
+
+    /**
+     * @param string $gitUrl
+     *
+     * @return $this
+     */
+    public function setGitUrl($gitUrl)
+    {
+        $this->gitUrl = $gitUrl;
 
         return $this;
     }

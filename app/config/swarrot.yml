@@ -9,15 +9,25 @@ swarrot:
             login: "%rabbitmq_login%"
             password: "%rabbitmq_password%"
             vhost: "/"
+
     consumers:
         webhook:
             processor: mq.processor.webhook
             queue: dk.manifest_webhook
+        repository_build:
+            processor: mq.processor.repository_build
+            queue: dk.repository_build
+
     messages_types:
         manifest_push:
             connection: rabbitmq
             exchange: dk.manifest
             routing_key: push
+        repository_build:
+            connection: rabbitmq
+            exchange: dk.repository
+            routing_key: build
+
     processors_stack:
         signal_handler: ~
         ack: ~

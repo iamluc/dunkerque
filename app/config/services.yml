@@ -24,6 +24,16 @@ services:
         tags:
             - {name: form.type, alias: "webhook"}
 
+    form.type.build_config:
+        class: AppBundle\Form\BuildConfigType
+        tags:
+            - {name: form.type, alias: "build_config"}
+
+    form.type.repository_build_config:
+        class: AppBundle\Form\RepositoryBuildConfigType
+        tags:
+            - {name: form.type, alias: "repository_build_config"}
+
     delayed_event_listener:
         class: AppBundle\EventListener\DelayedEventListener
         tags:
@@ -43,4 +53,8 @@ services:
 
     mq.processor.webhook:
         class: AppBundle\Broker\Processor\WebhookProcessor
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    mq.processor.repository_build:
+        class: AppBundle\Broker\Processor\RepositoryBuildProcessor
         arguments: ["@doctrine.orm.entity_manager"]

@@ -1,0 +1,68 @@
+{% extends 'repository/layout.html.twig' %}
+
+{% set active_tab = 'build' %}
+
+{% import 'DatathekePagerBundle:Pager:bootstrap3.html.twig' as helper %}
+
+{% block tab_content %}
+
+    <div class="col-md-8">
+        <form action="{{ pager_form_path(pager) }}" method="post">
+            {{ helper.toolbar(pager) }}
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>{{ helper.orderBy(pager, 'reference', 'build.reference'|trans) }}</th>
+                    <th>{{ helper.orderBy(pager, 'tag', 'build.tag'|trans) }}</th>
+                    <th>{{ 'delete'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for config in pager.items %}
+                    <tr>
+                    <tr>
+                        <td>{{ config.reference }}</td>
+                        <td>{{ config.tag }}</td>
+                        <td><a href="{{ path('repository_build_remove', {name: repository.name, id: config.id, _token: csrf_token('build_remove')}) }}" class="btn btn-danger btn-xs" onclick="return confirm('{{ 'build.confirm_remove'|trans }}')"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {{ helper.paginate(pager) }}
+        </form>
+
+        <h3>{{ 'build_config.add'|trans }}</h3>
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary pull-right">{{ 'add'|trans }}</button>
+        {{ form_end(form) }}
+    </div>
+
+    <div class="col-md-4">
+        <a href="{{ path('repository_build_trigger', {name: repository.name}) }}" class="btn btn-warning pull-right">{{ 'build.trigger'|trans }}</a>
+        <div class="clearfix"></div>
+
+        {{ render(controller('AppBundle:Repository:buildUrl', {repository: repository})) }}
+
+        <div class="clearfix"></div>
+
+        <h4>{{ 'build.list'|trans }}</h4>
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                toto
+                <div><span class="pull-right">{{ 'now'|date }}</span></div>
+                <div class="clearfix"></div>
+            </li>
+            <li class="list-group-item">
+                tata
+                <div><span class="pull-right">{{ 'now'|date }}</span></div>
+                <div class="clearfix"></div>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}

@@ -9,7 +9,7 @@ app:
         - DOCKER_ENV=dev
     ports:
         # Adapt to you need
-        - 80:80
+        - 8000:80
 
     links:
         - rabbitmq:rabbitmq
@@ -41,3 +41,13 @@ workerwebhook:
     environment:
         - SYMFONY_ENV=dev
     command: app/console dunkerque:broker:setup ; app/console swarrot:consume:webhook
+
+workerbuild:
+    image: iamluc/symfony
+    volumes_from:
+        - app
+    links:
+        - rabbitmq:rabbitmq
+    environment:
+        - SYMFONY_ENV=dev
+    command: app/console dunkerque:broker:setup ; app/console swarrot:consume:repository_build

@@ -4,6 +4,10 @@
             type: topic
             durable: true
 
+        dk.repository:
+            type: topic
+            durable: true
+
     queues:
         dk.manifest_webhook:
             durable: true
@@ -11,3 +15,10 @@
                 -
                     exchange: dk.manifest
                     routing_key: push
+
+        dk.repository_build:
+            durable: true
+            bindings:
+                -
+                    exchange: dk.repository
+                    routing_key: build

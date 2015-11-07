@@ -25,6 +25,7 @@ repository.pull: "Pull"
 repository.tags: "Tags"
 repository.title: "Title"
 repository.webhooks: "Webhooks"
+repository.build: "Build"
 
 webhook.name: "Name"
 webhook.url: "Url"
@@ -36,3 +37,5 @@ webhook.not_found_or_not_granted: "Webhook not found, or you cannot access it."
 webhook.removed: "Webhook removed"
 webhook.created: "Webhook created"
 webhook.list: "Existing webhooks"
+
+build: "Build"

@@ -17,6 +17,7 @@
             <li {% if active_tab == 'description' %}class="active"{% endif %}><a href="{{ path('repository', {name: repository.name}) }}">{{ 'repository.description'|trans }}</a></li>
             {% if is_granted('REPO_WRITE', repository) %}
                 <li {% if active_tab == 'webhooks' %}class="active"{% endif %}><a href="{{ path('repository_webhooks', {name: repository.name}) }}">{{ 'repository.webhooks'|trans }}</a></li>
+                <li {% if active_tab == 'build' %}class="active"{% endif %}><a href="{{ path('repository_build', {name: repository.name}) }}">{{ 'repository.build'|trans }}</a></li>
             {% endif %}
         </ul>
     </div>
