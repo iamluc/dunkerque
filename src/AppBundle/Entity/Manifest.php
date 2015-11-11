@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation as Serializer;
 
 /**
  * Manifest.
@@ -18,6 +19,8 @@ class Manifest
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"manifest_push"})
      */
     private $id;
 
@@ -33,6 +36,8 @@ class Manifest
      * @var string
      *
      * @ORM\Column(name="tag", type="string", length=255)
+     *
+     * @Serializer\Groups({"manifest_push"})
      */
     private $tag;
 
@@ -40,6 +45,8 @@ class Manifest
      * @var string
      *
      * @ORM\Column(name="digest", type="string", length=255)
+     *
+     * @Serializer\Groups({"manifest_push"})
      */
     private $digest;
 

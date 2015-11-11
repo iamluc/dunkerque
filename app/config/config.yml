@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: fos_user.yml }
+    - { resource: swarrot.yml }
     - { resource: services.yml }
 
 parameters:
