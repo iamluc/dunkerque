@@ -11,7 +11,7 @@ RUN rm index.html \
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
-VOLUME ["/var/www/html/app/cache", "/var/www/html/app/logs", "/data"]
+VOLUME ["/data"]
 
 ENV SYMFONY_ENV prod
 ENV DUNKERQUE_STORAGE_PATH /data

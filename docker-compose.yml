@@ -40,4 +40,4 @@ workerwebhook:
         - rabbitmq:rabbitmq
     environment:
         - SYMFONY_ENV=dev
-    command: app/console dunkerque:broker:setup ; app/console swarrot:consume:webhook
+    command: app/console swarrot:consume:webhook
