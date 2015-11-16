@@ -5,6 +5,7 @@ default:
         - RestContext
         - EntityContext
         - ProfileContext
+        - Knp\FriendlyContexts\Context\TableContext
         - Behat\MinkExtension\Context\MinkContext
 
   extensions:
