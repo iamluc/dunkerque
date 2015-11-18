@@ -1,7 +1,7 @@
 Dunkerque
 =========
 
-[![Build Status](https://api.travis-ci.org/iamluc/dunkerque.png?branch=master)](https://travis-ci.org/iamluc/dunkerque)
+[![Build Status](https://api.travis-ci.org/iamluc/dunkerque.png?branch=master)](https://travis-ci.org/iamluc/dunkerque) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/8789214a-26f9-42b6-a98b-de4e3fd5ba8e/mini.png)](https://insight.sensiolabs.com/projects/8789214a-26f9-42b6-a98b-de4e3fd5ba8e)
 
 # About
 
@@ -9,7 +9,7 @@ Docker hub & registry.
 
 Written in PHP with Symfony.
 
-**THIS PROJECT IS IN PRE-ALPHA STATE**
+**THIS PROJECT IS IN ALPHA STATE**
 
 # INSTALL
 

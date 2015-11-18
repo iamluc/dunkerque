@@ -15,12 +15,12 @@ services:
             - {name: security.voter}
 
     form.type.repository:
-        class: AppBundle\Form\RepositoryType
+        class: AppBundle\Form\Type\RepositoryType
         tags:
             - {name: form.type, alias: "repository"}
 
     form.type.webhook:
-        class: AppBundle\Form\WebhookType
+        class: AppBundle\Form\Type\WebhookType
         tags:
             - {name: form.type, alias: "webhook"}
 
