@@ -25,11 +25,14 @@ security:
 
         main:
             anonymous: true
+            logout: true
             form_login:
                 provider: fos_userbundle
                 csrf_provider: security.csrf.token_manager
-            logout:       true
-            anonymous:    true
+            remember_me:
+                key: "%secret%"
+                lifetime: 2419200 # 4 weeks in seconds
+                path: /
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
