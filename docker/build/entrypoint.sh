@@ -5,7 +5,7 @@ set -e
 composer run-script post-install-cmd --no-interaction --no-dev
 
 # Delete cache created by root
-rm -rf app/cache/* appl/log/*
+rm -rf app/cache/* app/logs/*
 
 # Warmup cache
 su www-data -s /bin/bash -c "app/console cache:warmup"
