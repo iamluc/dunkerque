@@ -1,11 +1,10 @@
 <?php
 
+use AppBundle\Entity\Manifest;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Knp\FriendlyContexts\Context\EntityContext as BaseEntityContext;
-
-use AppBundle\Entity\Manifest;
 
 class EntityContext extends BaseEntityContext implements KernelAwareContext
 {

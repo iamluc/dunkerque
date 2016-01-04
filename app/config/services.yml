@@ -17,12 +17,12 @@ services:
     form.type.repository:
         class: AppBundle\Form\Type\RepositoryType
         tags:
-            - {name: form.type, alias: "repository"}
+            - {name: form.type}
 
     form.type.webhook:
         class: AppBundle\Form\Type\WebhookType
         tags:
-            - {name: form.type, alias: "webhook"}
+            - {name: form.type}
 
     delayed_event_listener:
         class: AppBundle\EventListener\DelayedEventListener

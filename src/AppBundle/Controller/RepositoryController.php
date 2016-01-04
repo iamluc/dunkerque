@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Repository;
 use AppBundle\Entity\Webhook;
+use AppBundle\Form\Type\RepositoryType;
+use AppBundle\Form\Type\WebhookType;
 use Datatheke\Bundle\PagerBundle\Pager\Filter;
 use Datatheke\Bundle\PagerBundle\Pager\PagerView;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -27,7 +29,7 @@ class RepositoryController extends Controller
     public function indexAction(Request $request, Repository $repository)
     {
         if ($this->isGranted('REPO_WRITE', $repository)) {
-            $form = $this->createForm('repository', $repository);
+            $form = $this->createForm(RepositoryType::class, $repository);
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $this->get('doctrine')->getManager()->flush();
@@ -55,7 +57,7 @@ class RepositoryController extends Controller
      */
     public function webhooksAction(Request $request, Repository $repository)
     {
-        $form = $this->createForm('webhook', new Webhook($repository));
+        $form = $this->createForm(WebhookType::class, new Webhook($repository));
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->get('doctrine')->getManager();

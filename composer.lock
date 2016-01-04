@@ -4,36 +4,35 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fbb35a491d2fd7ae517f4dcfc3f561bd",
-    "content-hash": "29fc868dc872dbad5e966c49a28fc89b",
+    "hash": "fb3a6a30ff204eec45bca81887fe2ffc",
+    "content-hash": "55bb04203a0236626aa3a660ccebda9b",
     "packages": [
         {
             "name": "datatheke/pager-bundle",
-            "version": "v0.4.0",
-            "target-dir": "Datatheke/Bundle/PagerBundle",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/datatheke/DatathekePagerBundle.git",
-                "reference": "3cb1152decc4e9ad1e4b6ff2e7e6c4a79138ca4e"
+                "reference": "ebdf1661dc39b25d476d71cac64bc2144403fac1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/datatheke/DatathekePagerBundle/zipball/3cb1152decc4e9ad1e4b6ff2e7e6c4a79138ca4e",
-                "reference": "3cb1152decc4e9ad1e4b6ff2e7e6c4a79138ca4e",
+                "url": "https://api.github.com/repos/datatheke/DatathekePagerBundle/zipball/ebdf1661dc39b25d476d71cac64bc2144403fac1",
+                "reference": "ebdf1661dc39b25d476d71cac64bc2144403fac1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "symfony/config": "~2.3",
-                "symfony/console": "~2.3",
-                "symfony/dependency-injection": "~2.3",
-                "symfony/form": "~2.3",
-                "symfony/framework-bundle": "~2.3",
-                "symfony/http-foundation": "~2.3",
-                "symfony/http-kernel": "~2.3",
-                "symfony/options-resolver": "~2.3",
-                "symfony/property-access": "~2.3",
-                "symfony/routing": "~2.3"
+                "symfony/config": "~2.3|~3.0",
+                "symfony/console": "~2.3|~3.0",
+                "symfony/dependency-injection": "~2.3|~3.0",
+                "symfony/form": "~2.3|~3.0",
+                "symfony/framework-bundle": "~2.3|~3.0",
+                "symfony/http-foundation": "~2.3|~3.0",
+                "symfony/http-kernel": "~2.3|~3.0",
+                "symfony/options-resolver": "~2.3|~3.0",
+                "symfony/property-access": "~2.3|~3.0",
+                "symfony/routing": "~2.3|~3.0"
             },
             "require-dev": {
                 "doctrine/orm": "~2.3",
@@ -50,9 +49,12 @@
             },
             "type": "symfony-bundle",
             "autoload": {
-                "psr-0": {
-                    "Datatheke\\Bundle\\PagerBundle": ""
-                }
+                "psr-4": {
+                    "Datatheke\\Bundle\\PagerBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -64,7 +66,7 @@
                     "email": "luc@vieillescazes.net"
                 }
             ],
-            "description": "Pager & DataGrid bundle for Symfony2",
+            "description": "Pager & DataGrid bundle for Symfony",
             "homepage": "https://github.com/datatheke/DatathekePagerBundle",
             "keywords": [
                 "Dynatable",
@@ -78,7 +80,7 @@
                 "paginator",
                 "typeahead"
             ],
-            "time": "2015-10-31 18:33:58"
+            "time": "2015-11-20 19:26:36"
         },
         {
             "name": "doctrine/annotations",
