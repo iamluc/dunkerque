@@ -68,7 +68,7 @@ class RestContext extends BaseRestContext
     {
         $this->headers[] = $name;
 
-        parent::iAddHeaderEqualTo('HTTP_'.$name, $value);
+        parent::iAddHeaderEqualTo($name, $value);
     }
 
     /**
