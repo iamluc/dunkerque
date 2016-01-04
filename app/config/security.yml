@@ -28,9 +28,9 @@ security:
             logout: true
             form_login:
                 provider: fos_userbundle
-                csrf_provider: security.csrf.token_manager
+                csrf_token_generator: security.csrf.token_manager
             remember_me:
-                key: "%secret%"
+                secret: "%secret%"
                 lifetime: 2419200 # 4 weeks in seconds
                 path: /
 
