@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @Route("/v2/{name}/blobs", requirements={"name"="%regex_name%"})
@@ -35,6 +36,7 @@ class LayerController extends Controller
         if ($request->isMethod('HEAD')) {
             return new Response('', Response::HTTP_OK, [
                 'Docker-Content-Digest' => $layer->getDigest(),
+                'Content-Length' => filesize($this->get('layer_manager')->getContentPath($layer)),
             ]);
         }
 
@@ -65,9 +67,22 @@ class LayerController extends Controller
             'Location' => $this->generateUrl('layer_upload', [
                 'name' => $name,
                 'uuid' => $layer->getUuid(),
-            ], true),
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
             'Docker-Upload-UUID' => $layer->getUuid(),
         ]);
+    }
+
+    /**
+     * @Route("/uploads/{uuid}", methods={"GET"}, name="layer_upload_status")
+     *
+     * @ParamConverter(name="repository", options={"mapping": {"name": "name"}})
+     * @Security("is_granted('REPO_WRITE', repository)")
+     *
+     * @link http://docs.docker.com/registry/spec/api/#upload-progress
+     */
+    public function uploadStatusAction(Repository $repository)
+    {
+        return new Response('', 404);
     }
 
     /**
@@ -87,49 +102,38 @@ class LayerController extends Controller
         }
 
         $finalUpload = $request->query->has('digest');
-
-        // TODO: manage chunked uploads
-        $this->get('layer_manager')->write($layer, $request->getContent(true));
+        $size = $this->get('layer_manager')->write($layer, $request->getContent(false), true);
 
         if (!$finalUpload) {
             $layer->setStatus(Layer::STATUS_PARTIAL);
+            $this->get('layer_manager')->save($layer);
 
             return new Response('', Response::HTTP_ACCEPTED, [
                 'Location' => $this->generateUrl('layer_upload', [
                     'name' => $repository->getName(),
                     'uuid' => $layer->getUuid(),
-                ], true),
+                ], UrlGeneratorInterface::ABSOLUTE_URL),
                 'Docker-Upload-UUID' => $layer->getUuid(),
+                'Range' => '0-'.$size,
             ]);
         }
 
         $digest = $this->get('layer_manager')->computeDigest($layer);
+
         if ($digest !== $request->query->get('digest')) {
             throw new BadRequestHttpException(sprintf('Digest does not match with received data (computed: "%s")', $digest));
         }
 
         $layer->setDigest($digest);
+        $layer->setStatus(Layer::STATUS_COMPLETE);
         $this->get('layer_manager')->save($layer);
 
         return new Response('', Response::HTTP_CREATED, [
             'Location' => $this->generateUrl('layer_get', [
                 'name' => $repository->getName(),
                 'digest' => $layer->getDigest(),
-            ], true),
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
             'Docker-Content-Digest' => $layer->getDigest(),
         ]);
-    }
-
-    /**
-     * @Route("/uploads/{uuid}", methods={"GET"}, name="layer_upload_status")
-     *
-     * @ParamConverter(name="repository", options={"mapping": {"name": "name"}})
-     * @Security("is_granted('REPO_WRITE', repository)")
-     *
-     * @link http://docs.docker.com/registry/spec/api/#upload-progress
-     */
-    public function uploadStatusAction(Repository $repository)
-    {
-        throw new \Exception('Not implemented');
     }
 }

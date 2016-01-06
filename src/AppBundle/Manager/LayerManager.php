@@ -34,14 +34,16 @@ class LayerManager
         return new Layer();
     }
 
-    public function write(Layer $layer, $content)
+    public function write(Layer $layer, $content, $append = false)
     {
         $path = $this->getContentPath($layer);
         if (!$this->fs->exists(dirname($path))) {
             $this->fs->mkdir(dirname($path));
         }
 
-        $this->fs->dumpFile($path, $content);
+        $options = $append ? FILE_APPEND : null;
+
+        return file_put_contents($path, $content, $options);
     }
 
     public function computeDigest(Layer $layer)

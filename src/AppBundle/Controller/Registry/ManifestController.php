@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @Route("/v2/{name}/manifests", requirements={"name"="%regex_name%"})
@@ -70,7 +71,7 @@ class ManifestController extends Controller
             'Location' => $this->generateUrl('manifest_get', [
                 'name' => $manifest->getRepository()->getName(),
                 'reference' => $reference,
-            ], true),
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
             'Docker-Content-Digest' => $manifest->getDigest(),
         ]);
     }
