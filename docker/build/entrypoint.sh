@@ -8,6 +8,9 @@ composer run-script post-install-cmd --no-interaction --no-dev
 rm -rf app/cache/* app/logs/*
 
 if [ "$1" = 'apache2ctl' ]; then
+    # Let's time to other containers (i.e. mysql)
+    sleep 5
+
     # Warmup cache
     su www-data -s /bin/bash -c "app/console cache:warmup --no-interaction"
 

@@ -11,7 +11,11 @@ Written in PHP with Symfony.
 
 **THIS PROJECT IS IN ALPHA STATE**
 
-# INSTALL
+# Docker image
+
+If you just want to use dunkerque, use the [docker image on the docker hub](https://hub.docker.com/r/iamluc/dunkerque/).
+
+# Install
 
 Base
 
