@@ -7,16 +7,13 @@ composer run-script post-install-cmd --no-interaction --no-dev
 # Delete cache created by root
 rm -rf app/cache/* app/logs/*
 
-# Warmup cache
-su www-data -s /bin/bash -c "app/console cache:warmup"
-
 if [ "$1" = 'apache2ctl' ]; then
-    # Setup/update database
-    su www-data -s /bin/bash -c "app/console doctrine:database:create"
-    su www-data -s /bin/bash -c "app/console doctrine:schema:update --force"
+    # Warmup cache
+    su www-data -s /bin/bash -c "app/console cache:warmup --no-interaction"
 
-    # Setup/update RabbitMq configuration
-    su www-data -s /bin/bash -c "app/console dunkerque:broker:setup"
+    # Setup/update database
+    su www-data -s /bin/bash -c "app/console doctrine:database:create --no-interaction --if-not-exists"
+    su www-data -s /bin/bash -c "app/console doctrine:migrations:migrate --no-interaction"
 
     # let's start apache as root
     exec "$@"

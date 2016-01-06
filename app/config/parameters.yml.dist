@@ -1,13 +1,13 @@
 parameters:
-    database_path:     "%storage_path%/dunkerque.db3"
-
-    mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
-
     # A secret key that's used to generate certain security-related tokens
     secret:            HelloInsightAreYouOkWithThisSecret
+
+    # Database
+    database_host:     db
+    database_port:     ~
+    database_name:     dunkerque
+    database_user:     root
+    database_password: dkpassword
 
     # RabbitMQ
     rabbitmq_host:     rabbitmq
@@ -16,5 +16,11 @@ parameters:
     rabbitmq_password: dkpassword
     rabbitmq_management_port: 15672
 
+    # Mailer
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+
     # App
-    storage_path:      "%kernel.cache_dir%"
+    storage_path:      "%kernel.root_dir%/../var/storage"

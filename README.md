@@ -23,23 +23,7 @@ git clone https://github.com/iamluc/dunkerque
 cd dunkerque
 ```
 
-## On your machine
-
-```sh
-# Install dependencies with [composer](https://getcomposer.org/download/)
-composer install
-
-# Initialize database
-php app/console doctrine:schema:create
-
-# Create a user
-php app/console fos:user:create
-
-# Run test suite
-./bin/behat
-```
-
-## With Docker (and docker-compose)
+## Method 1: Using Docker & docker-compose
 
 ```sh
 # Run server (You could have to change port)
@@ -49,18 +33,32 @@ docker-compose up -d
 docker-compose run --rm app composer install
 
 # Initialize database
-docker-compose run --rm app app/console doctrine:schema:create
+docker-compose run --rm app app/console doctrine:database:create --if-not-exists
+docker-compose run --rm app app/console doctrine:migrations:migrate
 
 # Create a user
 docker-compose run --rm app app/console fos:user:create
 
 # Run test suite
-docker-compose run --rm app bin/behat
+docker-compose run --rm app bin/run-tests
 ```
 
-# Storage
+## Method 2: On your machine
 
-By default, your database and your layers will be stored in the cache folder (`app/cache`)
+```sh
+# Install dependencies with [composer](https://getcomposer.org/download/)
+composer install
+
+# Initialize database
+php app/console doctrine:database:create --if-not-exists
+php app/console doctrine:migrations:migrate
+
+# Create a user
+php app/console fos:user:create
+
+# Run test suite
+./bin/run-tests
+```
 
 # LICENSE
 

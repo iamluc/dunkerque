@@ -5,10 +5,15 @@
 /app/logs/*
 !app/logs/.gitkeep
 /app/phpunit.xml
-/bin/
+/bin/*
+!/bin/run-tests
 /composer.phar
 /vendor/
 /web/bundles/
 /bower_components/
 /node_modules/
 /.sass-cache/
+/var/*
+!/var/storage
+/var/storage/*
+!var/storage/.gitkeep

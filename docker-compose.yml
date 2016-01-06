@@ -1,5 +1,6 @@
 app:
     image: iamluc/symfony
+    container_name: dunkerque
     volumes:
         - .:/var/www/html
         # To speed up composer
@@ -9,9 +10,10 @@ app:
         - DOCKER_ENV=dev
     ports:
         # Adapt to you need
-        - 80:80
+        - 8000:80
 
     links:
+        - mariadb:db
         - rabbitmq:rabbitmq
 
     # Uncomment lines below to enable Blackfire
@@ -23,6 +25,18 @@ app:
 #    environment:
 #        - BLACKFIRE_SERVER_ID
 #        - BLACKFIRE_SERVER_TOKEN
+
+
+phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: dunkerque_phpmyadmin
+    links:
+        - mariadb:db
+
+mariadb:
+    image: mariadb:10
+    environment:
+        - MYSQL_ROOT_PASSWORD=dkpassword
 
 rabbitmq:
     image: rabbitmq:3-management
@@ -40,4 +54,4 @@ workerwebhook:
         - rabbitmq:rabbitmq
     environment:
         - SYMFONY_ENV=dev
-    command: app/console swarrot:consume:webhook
+    command: app/console dunkerque:broker:setup && app/console swarrot:consume:webhook

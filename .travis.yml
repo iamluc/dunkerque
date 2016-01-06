@@ -6,14 +6,22 @@ php:
     - 7.0
     - hhvm
 
+services:
+    - mysql
+
 matrix:
     allow_failures:
         - php: 7.0
         - php: hhvm
+
+env:
+    global:
+        - DUNKERQUE_DATABASE_HOST=127.0.0.1
+        - DUNKERQUE_DATABASE_PASSWORD=null
 
 before_script:
     - composer self-update
     - composer install --no-interaction
 
 script:
-    - ./bin/behat
+    - ./bin/run-tests
