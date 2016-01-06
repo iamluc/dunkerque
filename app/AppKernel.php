@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
             // Third-party
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Swarrot\SwarrotBundle\SwarrotBundle(),
             new Datatheke\Bundle\PagerBundle\DatathekePagerBundle(),

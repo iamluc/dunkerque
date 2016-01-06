@@ -27,7 +27,13 @@ app:
     volumes_from:
         - dunkerque_data
     links:
+        - mariadb:db
         - rabbitmq:rabbitmq
+
+mariadb:
+    image: mariadb:10
+    environment:
+        - MYSQL_ROOT_PASSWORD=dkpassword
 
 rabbitmq:
     image: rabbitmq:3-management
@@ -59,4 +65,3 @@ You can use environment variables to configure the application:
 | Variable name           | Default value       |
 |-------------------------|---------------------|
 | DUNKERQUE_STORAGE_PATH  | /data               |
-| DUNKERQUE_DATABASE_PATH | /data/dunkerque.db3 |

@@ -29,7 +29,8 @@
         "datatheke/pager-bundle": "~0.5.0",
         "swarrot/swarrot-bundle": "~1.3",
         "videlalvaro/php-amqplib": "^2.6",
-        "odolbeau/rabbit-mq-admin-toolkit": "^3.0"
+        "odolbeau/rabbit-mq-admin-toolkit": "^3.0",
+        "doctrine/doctrine-migrations-bundle": "^1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
@@ -73,7 +74,6 @@
             "file": "app/config/parameters.yml",
             "env-map": {
                 "storage_path": "DUNKERQUE_STORAGE_PATH",
-                "database_path": "DUNKERQUE_DATABASE_PATH",
                 "secret": "DUNKERQUE_SECRET",
                 "rabbitmq_host": "DUNKERQUE_RABBITMQ_HOST",
                 "rabbitmq_port": "DUNKERQUE_RABBITMQ_PORT",
