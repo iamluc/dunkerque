@@ -71,7 +71,7 @@ class LayerController extends Controller
     }
 
     /**
-     * @Route("/uploads/{uuid}", methods={"PUT"}, name="layer_upload", requirements={"uuid"="[0-9a-z-]+"})
+     * @Route("/uploads/{uuid}", methods={"PUT", "PATCH"}, name="layer_upload", requirements={"uuid"="[0-9a-z-]+"})
      *
      * @ParamConverter(name="repository", options={"mapping": {"name": "name"}})
      * @ParamConverter(name="layer", options={"mapping": {"uuid": "uuid"}})
