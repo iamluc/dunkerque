@@ -75,6 +75,11 @@
             "env-map": {
                 "storage_path": "DUNKERQUE_STORAGE_PATH",
                 "secret": "DUNKERQUE_SECRET",
+                "database_host": "DUNKERQUE_DATABASE_HOST",
+                "database_port": "DUNKERQUE_DATABASE_PORT",
+                "database_name": "DUNKERQUE_DATABASE_NAME",
+                "database_user": "DUNKERQUE_DATABASE_USER",
+                "database_password": "DUNKERQUE_DATABASE_PASSWORD",
                 "rabbitmq_host": "DUNKERQUE_RABBITMQ_HOST",
                 "rabbitmq_port": "DUNKERQUE_RABBITMQ_PORT",
                 "rabbitmq_login": "DUNKERQUE_RABBITMQ_LOGIN",
