@@ -20,6 +20,8 @@ env:
         - DUNKERQUE_DATABASE_PASSWORD=null
 
 before_script:
+    - cp var/jwt/private.pem.dist var/jwt/private.pem
+    - cp var/jwt/public.pem.dist var/jwt/public.pem
     - composer self-update
     - composer install --no-interaction
 
