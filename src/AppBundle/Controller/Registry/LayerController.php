@@ -67,6 +67,7 @@ class LayerController extends Controller
             'Location' => $this->generateUrl('layer_upload', [
                 'name' => $name,
                 'uuid' => $layer->getUuid(),
+                '_state' => uniqid(), // FIXME: not implemented
             ], UrlGeneratorInterface::ABSOLUTE_URL),
             'Docker-Upload-UUID' => $layer->getUuid(),
         ]);

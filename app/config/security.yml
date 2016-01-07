@@ -16,9 +16,13 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        api:
+        registry_version:
+            pattern: ^/v2/$
+            security: false
+
+        registry:
             pattern: ^/v2/
-            anonymous: false
+            anonymous: true
             stateless: true
             http_basic:
                 provider: fos_userbundle

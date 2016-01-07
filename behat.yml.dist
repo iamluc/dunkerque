@@ -25,3 +25,17 @@ default:
       entities:
         namespaces:
           - AppBundle
+
+registry2:
+  suites:
+    default:
+      filters:
+        tags: @registry2
+
+  extensions:
+    Behat\MinkExtension:
+      base_url: 'http://172.17.0.1:5000/'
+      sessions:
+        default:
+          symfony2: false
+          goutte: ~

@@ -3,7 +3,7 @@
 export SYMFONY_ENV=test
 
 app/console doctrine:database:create --no-interaction --if-not-exists
-app/console doctrine:schema:drop --no-interaction --full-database
+app/console doctrine:schema:drop --no-interaction --full-database --force
 app/console doctrine:migrations:migrate --no-interaction
 
-bin/behat
+bin/behat $@

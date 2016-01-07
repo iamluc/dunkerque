@@ -18,6 +18,17 @@ Feature: Test access manifests
       | test~hello-world:latest.json  |
       | test~secret-world:latest.json |
 
+  Scenario: As an anonymous user, I cannot access a private manifest
+    Given I send a "GET" request to "/v2/test/secret-world/manifests/latest"
+    Then the response status code should be 401
+    And the header "Docker-Distribution-Api-Version" should contain "registry/2.0"
+
+  Scenario: As an anonymous user, I can access a public manifest
+    Given I send a "GET" request to "/v2/test/hello-world/manifests/latest"
+    Then the response status code should be 200
+    And the header "Docker-Distribution-Api-Version" should contain "registry/2.0"
+
+  @registry2
   Scenario: As a simple user, access unknown manifest from my namespace
     Given I set basic authentication with "test" and "test"
     When I send a "GET" request to "/v2/test/goodbye-world/manifests/latest"

@@ -70,7 +70,7 @@ class ManifestController extends Controller
         return new Response('', Response::HTTP_CREATED, [
             'Location' => $this->generateUrl('manifest_get', [
                 'name' => $manifest->getRepository()->getName(),
-                'reference' => $reference,
+                'reference' => $manifest->getDigest(),
             ], UrlGeneratorInterface::ABSOLUTE_URL),
             'Docker-Content-Digest' => $manifest->getDigest(),
         ]);
