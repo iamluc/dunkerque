@@ -16,4 +16,7 @@
 /var/*
 !/var/storage
 /var/storage/*
-!var/storage/.gitkeep
+!/var/storage/.gitkeep
+!/var/jwt
+/var/jwt/*
+!/var/jwt/*.dist

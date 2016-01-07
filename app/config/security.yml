@@ -8,6 +8,18 @@ security:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
+        chain_provider:
+            chain:
+                providers: [ in_memory, fos_userbundle ]
+
+        in_memory:
+            memory:
+                users:
+                    # Used to generate a JWT token for anymous visitors
+                    "Anon.":
+                        password: null
+                        roles: ROLE_ANONYMOUS
+
         fos_userbundle:
             id: fos_user.user_provider.username
 
@@ -16,9 +28,12 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        registry_version:
-            pattern: ^/v2/$
-            security: false
+        registry_token:
+            pattern: ^/token$
+            anonymous: true
+            stateless: true
+            http_basic:
+                provider: fos_userbundle
 
         registry:
             pattern: ^/v2/
@@ -26,6 +41,7 @@ security:
             stateless: true
             http_basic:
                 provider: fos_userbundle
+            lexik_jwt: ~
 
         main:
             anonymous: true

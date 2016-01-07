@@ -12,4 +12,10 @@ vendor/
 web/bundles/
 bower_components/
 node_modules/
-var/
+var/*
+!var/storage
+var/storage/*
+!var/storage/.gitkeep
+!var/jwt
+var/jwt/*
+!var/jwt/*.dist

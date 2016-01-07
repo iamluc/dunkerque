@@ -25,13 +25,13 @@ git clone https://github.com/iamluc/dunkerque
 
 # Enter directory
 cd dunkerque
-```
 
-## Method 1: Using Docker & docker-compose
-
-```sh
-# Run server (You could have to change port)
+# Run server (Adapt file `docker-compose.yml` to your needs)
 docker-compose up -d
+
+# Generate keys (Default passphrase is `DunkerqueIsOnFire`)
+docker-compose run --rm app openssl genrsa -out var/jwt/private.pem -aes256 4096
+docker-compose run --rm app openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem
 
 # Install dependencies
 docker-compose run --rm app composer install
@@ -45,23 +45,6 @@ docker-compose run --rm app app/console fos:user:create
 
 # Run test suite
 docker-compose run --rm app bin/run-tests
-```
-
-## Method 2: On your machine
-
-```sh
-# Install dependencies with [composer](https://getcomposer.org/download/)
-composer install
-
-# Initialize database
-php app/console doctrine:database:create --if-not-exists
-php app/console doctrine:migrations:migrate
-
-# Create a user
-php app/console fos:user:create
-
-# Run test suite
-./bin/run-tests
 ```
 
 # LICENSE

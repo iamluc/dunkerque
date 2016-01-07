@@ -4,9 +4,9 @@ default:
       contexts:
         - RestContext
         - EntityContext
-        - ProfileContext
         - Knp\FriendlyContexts\Context\TableContext
         - Behat\MinkExtension\Context\MinkContext
+        - Sanpi\Behatch\Context\JsonContext
 
   extensions:
     Behat\Symfony2Extension:

@@ -2,6 +2,11 @@
 
 export SYMFONY_ENV=test
 
+if [ ! -f var/jwt/private.pem ]; then
+    cp var/jwt/private.pem.dist var/jwt/private.pem
+    cp var/jwt/public.pem.dist var/jwt/public.pem
+fi
+
 app/console doctrine:database:create --no-interaction --if-not-exists
 app/console doctrine:schema:drop --no-interaction --full-database --force
 app/console doctrine:migrations:migrate --no-interaction
