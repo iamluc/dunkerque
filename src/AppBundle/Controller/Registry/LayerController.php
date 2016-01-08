@@ -103,7 +103,7 @@ class LayerController extends Controller
         }
 
         $finalUpload = $request->query->has('digest');
-        $size = $this->get('layer_manager')->write($layer, $request->getContent(false), true);
+        $size = $this->get('layer_manager')->write($layer, $request->getContent(true), true);
 
         if (!$finalUpload) {
             $layer->setStatus(Layer::STATUS_PARTIAL);
