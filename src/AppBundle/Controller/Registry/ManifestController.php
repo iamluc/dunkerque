@@ -71,7 +71,7 @@ class ManifestController extends Controller
             'Location' => $this->generateUrl('manifest_get', [
                 'name' => $manifest->getRepository()->getName(),
                 'reference' => $manifest->getDigest(),
-            ], UrlGeneratorInterface::ABSOLUTE_URL),
+            ], UrlGeneratorInterface::ABSOLUTE_PATH),
             'Docker-Content-Digest' => $manifest->getDigest(),
         ]);
     }

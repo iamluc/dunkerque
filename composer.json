@@ -86,7 +86,8 @@
                 "rabbitmq_port": "DUNKERQUE_RABBITMQ_PORT",
                 "rabbitmq_login": "DUNKERQUE_RABBITMQ_LOGIN",
                 "rabbitmq_password": "DUNKERQUE_RABBITMQ_PASSWORD",
-                "jwt_key_pass_phrase": "DUNKERQUE_JWT_KEY_PASS_PHRASE"
+                "jwt_key_pass_phrase": "DUNKERQUE_JWT_KEY_PASS_PHRASE",
+                "trusted_proxies": "DUNKERQUE_TRUSTED_PROXIES"
             }
         }
     }

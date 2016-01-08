@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Registry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -18,7 +19,7 @@ class VersionController extends Controller
      *
      * @link http://docs.docker.com/registry/spec/api/#api-version-check
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return new Response('{}', Response::HTTP_OK, [
@@ -26,8 +27,9 @@ class VersionController extends Controller
             ]);
         }
 
-        $tokenEndpoint = $this->generateUrl('registry_token', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $serviceEndpoint = $this->generateUrl('index', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $scheme = $request->getScheme().':';
+        $tokenEndpoint = $scheme.$this->generateUrl('registry_token', [], UrlGeneratorInterface::NETWORK_PATH);
+        $serviceEndpoint = $scheme.$this->generateUrl('index', [], UrlGeneratorInterface::NETWORK_PATH);
 
         return new JsonResponse([
            'errors' => [

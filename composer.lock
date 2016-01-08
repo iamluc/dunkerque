@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6dd883caf91b23db129d0cba44497985",
-    "content-hash": "17ec8f06e67c0254ad635bc22f867ab8",
+    "hash": "88ca0da643a1b28ebdc25dd188663b8c",
+    "content-hash": "2a54be29ff7a8835ea54883717fdf110",
     "packages": [
         {
             "name": "datatheke/pager-bundle",

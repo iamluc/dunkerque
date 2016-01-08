@@ -24,6 +24,7 @@ parameters:
 
     # App
     storage_path:      "%kernel.root_dir%/../var/storage"
+    trusted_proxies:   [172.16.0.0/12]
 
     # JWT
     jwt_private_key_path: %kernel.root_dir%/../var/jwt/private.pem
