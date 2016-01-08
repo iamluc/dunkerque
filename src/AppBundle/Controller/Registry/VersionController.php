@@ -27,9 +27,8 @@ class VersionController extends Controller
             ]);
         }
 
-        $scheme = $request->getScheme().':';
-        $tokenEndpoint = $scheme.$this->generateUrl('registry_token', [], UrlGeneratorInterface::NETWORK_PATH);
-        $serviceEndpoint = $scheme.$this->generateUrl('index', [], UrlGeneratorInterface::NETWORK_PATH);
+        $tokenEndpoint = $this->generateUrl('registry_token', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $serviceEndpoint = $this->generateUrl('index', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
         return new JsonResponse([
            'errors' => [

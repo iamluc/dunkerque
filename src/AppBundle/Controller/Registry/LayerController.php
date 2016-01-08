@@ -68,7 +68,7 @@ class LayerController extends Controller
                 'name' => $name,
                 'uuid' => $layer->getUuid(),
                 '_state' => uniqid(), // FIXME: not implemented
-            ], UrlGeneratorInterface::ABSOLUTE_PATH),
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
             'Docker-Upload-UUID' => $layer->getUuid(),
         ]);
     }
@@ -113,7 +113,7 @@ class LayerController extends Controller
                 'Location' => $this->generateUrl('layer_upload', [
                     'name' => $repository->getName(),
                     'uuid' => $layer->getUuid(),
-                ], UrlGeneratorInterface::ABSOLUTE_PATH),
+                ], UrlGeneratorInterface::ABSOLUTE_URL),
                 'Docker-Upload-UUID' => $layer->getUuid(),
                 'Range' => '0-'.$size,
             ]);
@@ -133,7 +133,7 @@ class LayerController extends Controller
             'Location' => $this->generateUrl('layer_get', [
                 'name' => $repository->getName(),
                 'digest' => $layer->getDigest(),
-            ], UrlGeneratorInterface::ABSOLUTE_PATH),
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
             'Docker-Content-Digest' => $layer->getDigest(),
         ]);
     }
