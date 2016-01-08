@@ -34,6 +34,7 @@ workerwebhook:
     volumes_from:
         - app
     links:
+        - mariadb:db
         - rabbitmq:rabbitmq
     command: sleep 5 && app/console dunkerque:broker:setup && app/console swarrot:consume:webhook
 ```
