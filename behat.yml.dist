@@ -2,6 +2,7 @@ default:
   suites:
     default:
       contexts:
+        - AuthenticationContext
         - RestContext
         - EntityContext
         - Knp\FriendlyContexts\Context\TableContext

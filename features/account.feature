@@ -23,3 +23,10 @@ Feature: Test account
     And I should see the following table:
       | Name        | Stars | Pulls | Private |
       | hello-world | 3     | 12    | Public  |
+
+  Scenario: I am authenticated
+    Given I am authenticated as "test"
+    And I go to "/"
+    Then the response status code should be 200
+    And I should see "test"
+    And I should see "Log out"
