@@ -78,3 +78,14 @@ lexik_jwt_authentication:
     public_key_path:  %jwt_public_key_path%
     pass_phrase:      %jwt_key_pass_phrase%
     token_ttl:        %jwt_token_ttl%
+
+oneup_flysystem:
+    adapters:
+        storage:
+            local:
+                directory: %storage_path%
+
+    filesystems:
+        storage:
+            adapter: storage
+            alias: storage

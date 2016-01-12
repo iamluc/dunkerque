@@ -6,7 +6,7 @@ services:
 
     layer_manager:
         class: AppBundle\Manager\LayerManager
-        arguments: ["@doctrine.orm.entity_manager", "%storage_path%"]
+        arguments: ["@doctrine.orm.entity_manager", "@storage"]
 
     repository_voter:
         class: AppBundle\Security\Voter\RepositoryVoter

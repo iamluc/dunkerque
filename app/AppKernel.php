@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             // Third-party
             new FOS\UserBundle\FOSUserBundle(),
             new Swarrot\SwarrotBundle\SwarrotBundle(),
+            new Oneup\FlysystemBundle\OneupFlysystemBundle(),
             new Datatheke\Bundle\PagerBundle\DatathekePagerBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),

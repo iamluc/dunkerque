@@ -2,6 +2,7 @@
 
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Gherkin\Node\PyStringNode;
 use Sanpi\Behatch\Context\RestContext as BaseRestContext;
 use Sanpi\Behatch\HttpCall\Request;
 
@@ -89,6 +90,23 @@ class RestContext extends BaseRestContext
     public function iStoreValueOfHeaderToVariable($header, $name)
     {
         $this->variables[$name] = $this->request->getHttpHeader($header);
+    }
+
+    /**
+     * @Override I send a :method request to :url
+     */
+    public function iSendARequestTo($method, $url, PyStringNode $body = null)
+    {
+        $vars = array_map(function ($val) {return '{'.$val.'}';}, array_keys($this->variables));
+        $url = strtr($url, array_combine($vars, array_values($this->variables)));
+
+        return $this->request->send(
+            $method,
+            $this->locatePath($url),
+            [],
+            [],
+            $body !== null ? $body->getRaw() : null
+        );
     }
 
     /**
