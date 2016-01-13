@@ -8,9 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -36,13 +36,17 @@ class LayerController extends Controller
         if ($request->isMethod('HEAD')) {
             return new Response('', Response::HTTP_OK, [
                 'Docker-Content-Digest' => $layer->getDigest(),
-                'Content-Length' => filesize($this->get('layer_manager')->getContentPath($layer)),
+                'Content-Length' => $this->get('layer_manager')->getSize($layer),
+            ], Response::HTTP_OK, [
+                'Docker-Content-Digest' => $layer->getDigest(),
             ]);
         }
 
-        return new BinaryFileResponse($this->get('layer_manager')->getContentPath($layer), Response::HTTP_OK, [
+        return new StreamedResponse(function () use ($layer) {
+            fpassthru($this->get('layer_manager')->read($layer));
+        }, Response::HTTP_OK, [
             'Docker-Content-Digest' => $layer->getDigest(),
-        ], false);
+        ]);
     }
 
     /**
@@ -103,7 +107,7 @@ class LayerController extends Controller
         }
 
         $finalUpload = $request->query->has('digest');
-        $size = $this->get('layer_manager')->write($layer, $request->getContent(true), true);
+        $this->get('layer_manager')->write($layer, $request->getContent(true));
 
         if (!$finalUpload) {
             $layer->setStatus(Layer::STATUS_PARTIAL);
@@ -115,7 +119,7 @@ class LayerController extends Controller
                     'uuid' => $layer->getUuid(),
                 ], UrlGeneratorInterface::ABSOLUTE_URL),
                 'Docker-Upload-UUID' => $layer->getUuid(),
-                'Range' => '0-'.$size,
+                'Range' => '0-'.($this->get('layer_manager')->getSize($layer) - 1), // FIXME: need '-1' to be compatible with registry:2
             ]);
         }
 

@@ -4,7 +4,7 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\Layer;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Filesystem\Filesystem;
+use League\Flysystem\Filesystem;
 
 class LayerManager
 {
@@ -13,14 +13,15 @@ class LayerManager
      */
     private $om;
 
-    private $storagePath;
+    /**
+     * @var Filesystem
+     */
     private $fs;
 
-    public function __construct(ObjectManager $om, $storagePath)
+    public function __construct(ObjectManager $om, Filesystem $fs)
     {
         $this->om = $om;
-        $this->storagePath = $storagePath;
-        $this->fs = new Filesystem();
+        $this->fs = $fs;
     }
 
     public function save(Layer $layer)
@@ -34,25 +35,42 @@ class LayerManager
         return new Layer();
     }
 
-    public function write(Layer $layer, $content, $append = false)
+    public function write(Layer $layer, $content)
     {
         $path = $this->getContentPath($layer);
-        if (!$this->fs->exists(dirname($path))) {
-            $this->fs->mkdir(dirname($path));
+
+        # Append content manually as Flysystem does not support it
+        if ($this->fs->has($path)) {
+            $stream = fopen('php://temp', 'w');
+            stream_copy_to_stream($this->fs->readStream($path), $stream);
+            stream_copy_to_stream($content, $stream);
+        } else {
+            $stream = $content;
         }
 
-        $options = $append ? FILE_APPEND : null;
+        $this->fs->putStream($path, $stream);
+    }
 
-        return file_put_contents($path, $content, $options);
+    public function read(Layer $layer)
+    {
+        return $this->fs->readStream($this->getContentPath($layer));
+    }
+
+    public function getSize(Layer $layer)
+    {
+        return $this->fs->getSize($this->getContentPath($layer));
     }
 
     public function computeDigest(Layer $layer)
     {
-        return 'sha256:'.hash_file('sha256', $this->getContentPath($layer));
+        $hc = hash_init('sha256');
+        hash_update_stream($hc, $this->fs->readStream($this->getContentPath($layer)));
+
+        return 'sha256:'.hash_final($hc);
     }
 
-    public function getContentPath(Layer $layer)
+    protected function getContentPath(Layer $layer)
     {
-        return $this->storagePath.'/layers/'.$layer->getUuid();
+        return 'layers/'.$layer->getUuid();
     }
 }

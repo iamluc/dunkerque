@@ -41,3 +41,21 @@ Feature: Test add manifest
     Then the response status code should be 201
     And the header "Location" should contain "/v2/test/hello-world/manifests/sha256:9956e7d769a4cfeba2e342b92adf58e403affd8a77ef0710c4fb01e948fc2bbe"
     And the header "Docker-Content-Digest" should be equal to "sha256:9956e7d769a4cfeba2e342b92adf58e403affd8a77ef0710c4fb01e948fc2bbe"
+
+  @registry2
+  Scenario: As a simple user, upload layer with PATCH
+    Given I set basic authentication with "test" and "test"
+
+    When I send a "POST" request to "/v2/test/hello-world/blobs/uploads/"
+    Then the response status code should be 202
+    And the header "Docker-Upload-UUID" should contain "-"
+    And I store value of header "Location" to variable "location"
+
+    When I send a "PATCH" request to "{location}" with body "layers/03f4658f8b782e12230c1783426bd3bacce651ce582a4ffb6fbbfa2079428ecb"
+    Then the response status code should be 202
+    And the header "Range" should contain "0-600"
+
+    When I send a "PUT" request to "{location}&digest=sha256%3A03f4658f8b782e12230c1783426bd3bacce651ce582a4ffb6fbbfa2079428ecb"
+    Then the response status code should be 201
+    And the header "Location" should contain "/v2/test/hello-world/blobs/sha256:03f4658f8b782e12230c1783426bd3bacce651ce582a4ffb6fbbfa2079428ecb"
+    And the header "Docker-Content-Digest" should be equal to "sha256:03f4658f8b782e12230c1783426bd3bacce651ce582a4ffb6fbbfa2079428ecb"
