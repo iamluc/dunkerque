@@ -46,6 +46,7 @@ class LayerController extends Controller
             fpassthru($this->get('layer_manager')->read($layer));
         }, Response::HTTP_OK, [
             'Docker-Content-Digest' => $layer->getDigest(),
+            'Content-Length' => $this->get('layer_manager')->getSize($layer),
         ]);
     }
 

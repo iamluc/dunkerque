@@ -12,7 +12,7 @@ default:
   extensions:
     Behat\Symfony2Extension:
       kernel:
-        debug: true
+        debug: false
         env: "test"
 
     Behat\MinkExtension:
