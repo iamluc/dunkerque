@@ -45,6 +45,15 @@ services:
         tags:
             - {name: kernel.event_subscriber}
 
+    registry_exception_listener:
+        class: AppBundle\EventListener\RegistryExceptionListener
+        tags:
+            - {name: kernel.event_subscriber}
+
+    registry_entry_point:
+        class: AppBundle\Security\RegistryEntryPoint
+        arguments: ["@router"]
+
     mq.processor.webhook:
         class: AppBundle\Broker\Processor\WebhookProcessor
         arguments: ["@doctrine.orm.entity_manager"]

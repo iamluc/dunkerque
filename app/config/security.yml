@@ -32,6 +32,7 @@ security:
             pattern: ^/token$
             anonymous: true
             stateless: true
+            entry_point: registry_entry_point
             http_basic:
                 provider: fos_userbundle
 
@@ -39,9 +40,11 @@ security:
             pattern: ^/v2/
             anonymous: true
             stateless: true
+            entry_point: registry_entry_point
             http_basic:
                 provider: fos_userbundle
-            lexik_jwt: ~
+            lexik_jwt:
+                create_entry_point: false
 
         main:
             anonymous: true
