@@ -42,6 +42,19 @@ docker-compose run --rm app app/console doctrine:migrations:migrate
 
 # Create a user
 docker-compose run --rm app app/console fos:user:create
+```
+
+# Develop on Dunkerque
+
+```sh
+# Install dev dependencies
+docker-compose -f docker/docker-compose.nodejs.yml run --rm nodejs npm install
+
+# Push (already existing) repository to Dunkerque
+docker push 127.0.0.1:8000/user/repo
+
+# Compile SASS and JS
+docker-compose -f docker/docker-compose.nodejs.yml run --rm nodejs gulp
 
 # Run test suite
 docker-compose run --rm app bin/run-tests

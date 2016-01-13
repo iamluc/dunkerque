@@ -73,7 +73,7 @@ class Repository
     private $pulls = 0;
 
     /**
-     * @var
+     * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Manifest", mappedBy="repository")
      */
@@ -84,6 +84,7 @@ class Repository
         $this->name = $name;
         $this->owner = $owner;
         $this->manifests = new ArrayCollection();
+        $this->repositoryStars = new ArrayCollection();
     }
 
     /**

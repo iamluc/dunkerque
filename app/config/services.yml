@@ -8,6 +8,10 @@ services:
         class: AppBundle\Manager\LayerManager
         arguments: ["@doctrine.orm.entity_manager", "@storage"]
 
+    repository_star_manager:
+        class: AppBundle\Manager\RepositoryStarManager
+        arguments: ["@doctrine.orm.entity_manager"]
+
     repository_voter:
         class: AppBundle\Security\Voter\RepositoryVoter
         arguments: ["@doctrine.orm.entity_manager", "@security.access.role_hierarchy_voter", "@logger"]
@@ -44,3 +48,10 @@ services:
     mq.processor.webhook:
         class: AppBundle\Broker\Processor\WebhookProcessor
         arguments: ["@doctrine.orm.entity_manager"]
+
+    twig_extension:
+        class: AppBundle\Twig\AppExtension
+        arguments: ["@repository_star_manager"]
+        public: false
+        tags:
+            - {name: twig.extension}

@@ -1,0 +1,4 @@
+nodejs:
+    image: jeanberu/ggbcls
+    volumes:
+        - ..:/src

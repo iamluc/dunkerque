@@ -11,3 +11,11 @@
         </span>
     {% endif %}
 {% endmacro %}
+
+{% macro repository_star(repository) %}
+    {% set data_url_star = path('repository_star', {'name': repository.name, 'action': 'star' }) %}
+    {% set data_url_unstar = path('repository_star', {'name': repository.name, 'action': 'unstar' }) %}
+    <a href="#" data-url-star="{{ data_url_star }}" data-url-unstar="{{ data_url_unstar }}" id="repository-star">
+        <span class="glyphicon glyphicon-star{{ not is_starred_by_user(repository, app.user) ? '-empty' }}"></span>
+    </a>
+{% endmacro %}

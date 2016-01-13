@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class RepositoryController extends Controller
@@ -44,6 +45,28 @@ class RepositoryController extends Controller
             'repository' => $repository,
             'form' => isset($form) ? $form->createView() : null,
         ];
+    }
+
+    /**
+     * @Route("/r/{name}/~/{action}", requirements={"name"="%regex_name%", "action":"^star|unstar$"}, methods={"PUT"}, name="repository_star")
+     *
+     * @ParamConverter("repository", options={"mapping": {"name": "name"}})
+     *
+     * @Security("is_granted('ROLE_USER', repository)")
+     */
+    public function starOrUnstarAction(Repository $repository, $action)
+    {
+        $manager = $this->get('repository_star_manager');
+        $user = $this->getUser();
+
+        $starred = $manager->isStarredByUser($repository, $user);
+
+        if (('star' === $action && !$starred) || ('unstar' === $action && $starred)) {
+            $manager->$action($repository, $user);
+            $starred = !$starred;
+        }
+
+        return new JsonResponse(['starred' => $starred]);
     }
 
     /**

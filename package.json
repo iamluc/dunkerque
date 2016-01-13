@@ -1,8 +1,17 @@
 {
+  "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/iamluc/dunkerque.git"
+  },
   "devDependencies": {
+    "bower": "^1.7.2",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-ruby-sass": "^2.0.3",
     "gulp-uglify": "^1.4.1"
+  },
+  "scripts": {
+    "install": "bower install"
   }
 }
