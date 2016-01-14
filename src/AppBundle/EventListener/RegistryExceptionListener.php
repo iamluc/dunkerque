@@ -29,10 +29,12 @@ class RegistryExceptionListener implements EventSubscriberInterface
         $errorCode = isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : 'error';
 
         $response = new JsonResponse([
-            'error' => [
-                'code' => strtoupper($errorCode),
-                'details' => null,
-                'message' => $exception->getMessage(),
+            'errors' => [
+                [
+                    'code' => strtoupper($errorCode),
+                    'details' => null,
+                    'message' => $exception->getMessage(),
+                ],
             ],
         ], $code, $exception->getHeaders());
 

@@ -26,10 +26,12 @@ class RegistryEntryPoint implements AuthenticationEntryPointInterface
         $serviceEndpoint = $this->urlGenerator->generate('index', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
         $data = [
-            'error' => [
-                'code' => 'UNAUTHORIZED',
-                'details' => null,
-                'message' => 'access to the requested resource is not authorized',
+            'errors' => [
+                [
+                    'code' => 'UNAUTHORIZED',
+                    'details' => null,
+                    'message' => 'access to the requested resource is not authorized',
+                ],
             ],
         ];
 

@@ -4,8 +4,8 @@ Feature: Test version endpoint
     Given I send a "GET" request to "/v2/"
     Then the response status code should be 401
     And the response should be in JSON
-    And the JSON node "error.code" should be equal to "UNAUTHORIZED"
-    And the JSON node "error.message" should be equal to "access to the requested resource is not authorized"
+    And the JSON node "errors[0].code" should be equal to "UNAUTHORIZED"
+    And the JSON node "errors[0].message" should be equal to "access to the requested resource is not authorized"
     And the header "WWW-Authenticate" should contain 'Bearer realm="http'
     And the header "Docker-Distribution-Api-Version" should contain "registry/2.0"
 
@@ -29,7 +29,7 @@ Feature: Test version endpoint
     And I send a "GET" request to "/v2/"
     Then the response status code should be 401
     And the response should be in JSON
-    And the JSON node "error.code" should be equal to "UNAUTHORIZED"
-    And the JSON node "error.message" should be equal to "access to the requested resource is not authorized"
+    And the JSON node "errors[0].code" should be equal to "UNAUTHORIZED"
+    And the JSON node "errors[0].message" should be equal to "access to the requested resource is not authorized"
     And the header "WWW-Authenticate" should contain "Bearer"
     And the header "Docker-Distribution-Api-Version" should contain "registry/2.0"
