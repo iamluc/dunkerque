@@ -5,9 +5,18 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\ElasticaBundle\Persister\ObjectPersister;
 
 class RepositoryStarListener
 {
+    /** @var ObjectPersister */
+    protected $elasticaObjectPersister;
+
+    public function __construct(ObjectPersister $elasticaObjectPersister)
+    {
+        $this->elasticaObjectPersister = $elasticaObjectPersister;
+    }
+
     /**
      * @ORM\PostPersist
      */
@@ -26,13 +35,18 @@ class RepositoryStarListener
 
     protected function updateStarsCount(RepositoryStar $repositoryStar, EntityManager $em, $operator)
     {
+        $repository = $repositoryStar->getRepository();
+
         $qb = $em->createQueryBuilder()
             ->update(Repository::class, 'r')
             ->set('r.stars', "r.stars $operator 1")
             ->where('r.id = :id')
-            ->setParameter('id', $repositoryStar->getRepository()->getId())
+            ->setParameter('id', $repository->getId())
             ->getQuery();
+        $qb->execute();
 
-        return $qb->execute();
+        $em->refresh($repository);
+
+        $this->elasticaObjectPersister->replaceOne($repository);
     }
 }

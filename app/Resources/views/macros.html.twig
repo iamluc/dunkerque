@@ -19,3 +19,15 @@
         <span class="glyphicon glyphicon-star{{ not is_starred_by_user(repository, app.user) ? '-empty' }}"></span>
     </a>
 {% endmacro %}
+
+{% macro repository_pull_count(repository) %}
+    <span class="label label-primary">
+        {{ repository.pulls }} <span class="glyphicon glyphicon-download"></span>
+    </span>
+{% endmacro %}
+
+{% macro repository_star_count(repository) %}
+    <span class="label label-primary">
+        {{ repository.stars }} <span class="glyphicon glyphicon-star"></span>
+    </span>
+{% endmacro %}

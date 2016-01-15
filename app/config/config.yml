@@ -89,3 +89,38 @@ oneup_flysystem:
         storage:
             adapter: storage
             alias: storage
+
+fos_elastica:
+    clients:
+        default:
+            host: %elasticsearch_host%
+            port: %elasticsearch_port%
+    indexes:
+        app:
+            index_name: app_%kernel.environment%
+            types:
+                repository:
+                    mappings:
+                        name: { boost: 3 }
+                        title: { boost: 2 }
+                        description: { boost: 2 }
+                        private: ~
+                        pulls: ~
+                        stars: ~
+                        owner:
+                            type: "object"
+                            properties:
+                                id: ~
+                    persistence:
+                        driver: orm
+                        model: AppBundle\Entity\Repository
+                        provider: ~
+                        listener:
+                            insert: true
+                            update: true
+                            delete: true
+                        finder: ~
+
+knp_paginator:
+    template:
+        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig

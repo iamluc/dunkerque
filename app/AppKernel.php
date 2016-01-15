@@ -24,6 +24,8 @@ class AppKernel extends Kernel
             new Datatheke\Bundle\PagerBundle\DatathekePagerBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
+            new FOS\ElasticaBundle\FOSElasticaBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
 
             // App
             new AppBundle\AppBundle(),
