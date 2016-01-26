@@ -13,7 +13,8 @@ Written in PHP with Symfony.
 
 # Docker image
 
-If you just want to use dunkerque, use the [docker image on the docker hub](https://hub.docker.com/r/iamluc/dunkerque/).
+If you just want to use dunkerque, use the [docker image on the docker hub](https://hub.docker.com/r/iamluc/dunkerque/),
+and read the dedicated [README](https://github.com/iamluc/dunkerque/blob/master/docker/build/README.md)
 
 # Install
 

@@ -17,11 +17,15 @@ app:
     links:
         - mariadb:db
         - rabbitmq:rabbitmq
+        - elasticsearch:elasticsearch
 
 mariadb:
     image: mariadb:10
     environment:
         - MYSQL_ROOT_PASSWORD=dkpassword
+
+elasticsearch:
+    image: elasticsearch:1
 
 rabbitmq:
     image: rabbitmq:3-management
@@ -37,6 +41,22 @@ workerwebhook:
         - mariadb:db
         - rabbitmq:rabbitmq
     command: sleep 5 && app/console dunkerque:broker:setup && app/console swarrot:consume:webhook
+```
+
+### Update
+
+To update, check that your custom `docker-compose.yml` is up-to-date.
+Then run
+
+```
+# Download new images
+docker-compose pull
+
+# Recreate containers
+docker-compose up -d
+
+# Repopulate the elasticsearch index (used for the search)
+docker-compose run --rm -it app app/console fos:elastica:populate
 ```
 
 ### Use your registry with docker
