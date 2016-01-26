@@ -9,6 +9,13 @@ delete: "Delete"
 
 invalid_csrf_token: "Invalid token, please refresh your page"
 
+search.find: "Find..."
+search.results_found: "{0} No result found for \"%keyword%\"|{1} 1 result found for \"%keyword%\"|]1,Inf[ %count% results found for \"%keyword%\""
+
+sort._score: "Relevance"
+sort.pulls:  "Pulls"
+sort.stars:  "Stars"
+
 repositories: "Repositories"
 repositories.most_stared: "Most stared"
 repositories.most_pulled: "Most pulled"

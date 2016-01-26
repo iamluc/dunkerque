@@ -40,6 +40,9 @@ docker-compose run --rm app composer install
 docker-compose run --rm app app/console doctrine:database:create --if-not-exists
 docker-compose run --rm app app/console doctrine:migrations:migrate
 
+# Initialize search
+docker-compose run --rm app app/console fos:elastica:populate
+
 # Create a user
 docker-compose run --rm app app/console fos:user:create
 ```
@@ -56,7 +59,7 @@ docker push 127.0.0.1:8000/user/repo
 # Compile SASS and JS
 docker-compose -f docker/docker-compose.nodejs.yml run --rm nodejs gulp
 
-# Run test suite
+# Run tests
 docker-compose run --rm app bin/run-tests
 ```
 
