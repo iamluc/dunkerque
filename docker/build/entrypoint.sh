@@ -3,8 +3,8 @@ set -e
 
 # Generate keys needed by JWT
 if [ ! -f var/jwt/private.pem ]; then
-    openssl genrsa -passout env:DUNKERQUE_JWT_KEY_PASS_PHRASE -out var/jwt/private.pem -aes256 4096
-    openssl rsa -pubout -passin env:DUNKERQUE_JWT_KEY_PASS_PHRASE -in var/jwt/private.pem -out var/jwt/public.pem
+    openssl genrsa -passout env:DK_JWT_KEY_PASS_PHRASE -out var/jwt/private.pem -aes256 4096
+    openssl rsa -pubout -passin env:DK_JWT_KEY_PASS_PHRASE -in var/jwt/private.pem -out var/jwt/public.pem
 fi
 
 # Init project with environment variables given at runtime

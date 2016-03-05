@@ -14,5 +14,5 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 VOLUME ["/data"]
 
 ENV SYMFONY_ENV prod
-ENV DUNKERQUE_STORAGE_PATH /data
-ENV DUNKERQUE_JWT_KEY_PASS_PHRASE DunkerqueIsOnFire
+ENV DK_STORAGE_PATH /data
+ENV DK_JWT_KEY_PASS_PHRASE DunkerqueIsOnFire
