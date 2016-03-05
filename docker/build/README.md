@@ -73,4 +73,4 @@ You can use environment variables to configure the `iamluc/dunkerque` image:
 
 | Variable name           | Default value       |
 |-------------------------|---------------------|
-| DUNKERQUE_STORAGE_PATH  | /data               |
+| DK_STORAGE_PATH         | /data               |
