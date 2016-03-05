@@ -63,7 +63,6 @@ class LayerController extends Controller
 
         // Create the repository if it does not exist yet
         $repository = $this->get('doctrine')->getRepository('AppBundle:Repository')->findByNameOrCreate($name, $this->getUser());
-        $this->get('doctrine')->getRepository('AppBundle:Repository')->save($repository);
 
         $layer = $this->get('layer_manager')->create();
         $this->get('layer_manager')->save($layer);

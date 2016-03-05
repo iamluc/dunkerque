@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityRepository;
 
 class RepositoryRepository extends EntityRepository
@@ -24,7 +25,12 @@ class RepositoryRepository extends EntityRepository
     {
         $repository = $this->findOneByName($name);
         if (null === $repository) {
-            $repository = $this->create($name, $owner);
+            try {
+                $repository = $this->create($name, $owner);
+                $this->save($repository);
+            } catch (UniqueConstraintViolationException $e) {
+                $repository = $this->findOneByName($name);
+            }
         }
 
         return $repository;
