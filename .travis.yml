@@ -17,10 +17,10 @@ matrix:
 
 env:
     global:
-        - DUNKERQUE_DATABASE_HOST=127.0.0.1
-        - DUNKERQUE_DATABASE_PASSWORD=null
-        - DUNKERQUE_ELASTICSEARCH_HOST=127.0.0.1
-        - DUNKERQUE_ELASTICSEARCH_PORT=9200
+        - DK_DATABASE_HOST=127.0.0.1
+        - DK_DATABASE_PASSWORD=null
+        - DK_ELASTICSEARCH_HOST=127.0.0.1
+        - DK_ELASTICSEARCH_PORT=9200
 
 before_script:
     - cp var/jwt/private.pem.dist var/jwt/private.pem
