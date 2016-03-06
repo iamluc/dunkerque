@@ -7,9 +7,9 @@ if [ ! -f var/jwt/private.pem ]; then
     cp var/jwt/public.pem.dist var/jwt/public.pem
 fi
 
-rm -rf app/cache/test
-app/console doctrine:database:create --no-interaction --if-not-exists
-app/console doctrine:schema:drop --no-interaction --full-database --force
-app/console doctrine:migrations:migrate --no-interaction
+rm -rf var/cache/test
+bin/console doctrine:database:create --no-interaction --if-not-exists
+bin/console doctrine:schema:drop --no-interaction --full-database --force
+bin/console doctrine:migrations:migrate --no-interaction
 
 bin/behat $@

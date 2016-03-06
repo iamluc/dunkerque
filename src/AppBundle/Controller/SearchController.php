@@ -2,7 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\Type\SearchType;
+use Datatheke\Bundle\PagerBundle\Pager\HttpPagerInterface;
+use Datatheke\Bundle\PagerBundle\Pager\PagerView;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,40 +12,24 @@ use Symfony\Component\HttpFoundation\Request;
 class SearchController extends Controller
 {
     /**
-     * @Template("search/form.html.twig")
-     */
-    public function formAction()
-    {
-        $form = $this->createForm(SearchType::class, null, ['action' => $this->generateUrl('search')]);
-
-        return [
-            'form' => $form->createView(),
-        ];
-    }
-
-    /**
      * @Route("/search", methods={"GET"}, name="search")
      *
      * @Template("search/results.html.twig")
      */
     public function search(Request $request)
     {
-        $form = $this->createForm(SearchType::class);
-        $form->handleRequest($request);
+        $keyword = $request->query->get('q', null);
 
-        if (!$form->isValid()) {
-            return $this->redirectToRoute('index');
-        }
+        /** @var HttpPagerInterface $pager */
+        $pager = $this->get('search_manager')->createPager($keyword);
 
-        $data = $form->getData();
-        $keyword = $data['keyword'];
-
-        $adapter = $this->get('search_manager')->getPaginatorAdapter($keyword);
-        $pagination = $this->get('knp_paginator')->paginate($adapter, $request->query->getInt('page', 1));
+        /** @var PagerView $view */
+        $view = $pager->handleRequest($request);
+        $view->setParameters(['q' => $keyword]);
 
         return [
             'keyword' => $keyword,
-            'pagination' => $pagination,
+            'pager' => $view,
         ];
     }
 }

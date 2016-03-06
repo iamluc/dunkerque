@@ -2,41 +2,69 @@
 
 namespace AppBundle\Manager;
 
+use AppBundle\Entity\User;
+use Datatheke\Bundle\PagerBundle\Pager\Adapter\ElasticaAdapter;
+use Datatheke\Bundle\PagerBundle\Pager\Factory;
+use Datatheke\Bundle\PagerBundle\Pager\Field;
+use Datatheke\Bundle\PagerBundle\Pager\HttpPager;
 use Elastica\Query;
-use Elastica\Query\Term;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\SimpleQueryString;
-use FOS\ElasticaBundle\Finder\TransformedFinder;
-use FOS\UserBundle\Model\UserInterface;
+use Elastica\Query\Term;
+use Elastica\Type;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SearchManager
 {
-    /** @var TransformedFinder */
-    protected $finder;
+    /**
+     * @var Factory
+     */
+    private $pagerFactory;
+    /**
+     * @var Type
+     */
+    private $repositoryType;
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
-    /** @var string|UserInterface */
-    protected $user;
-
-    public function __construct(TransformedFinder $finder, TokenStorageInterface $token)
+    public function __construct(Factory $pagerFactory, Type $repositoryType, TokenStorageInterface $tokenStorage)
     {
-        $this->finder = $finder;
-        $this->user = $token->getToken()->getUser();
+        $this->pagerFactory = $pagerFactory;
+        $this->repositoryType = $repositoryType;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
      * @param string $keyword
      *
-     * @return array
+     * @return HttpPager
      */
-    public function getPaginatorAdapter($keyword)
+    public function createPager($keyword)
     {
-        $query = Query::create((new BoolQuery())
+        $fields = [
+            'name' => new Field('name'),
+            'title' => new Field('title'),
+            'description' => new Field('description'),
+            'private' => new Field('private'),
+        ];
+        $adapter = new ElasticaAdapter($this->repositoryType, $fields, $this->createSearchQuery($keyword));
+
+        return $this->pagerFactory->createHttpPager($adapter);
+    }
+
+    /**
+     * @param string $keyword
+     *
+     * @return Query
+     */
+    protected function createSearchQuery($keyword)
+    {
+        return Query::create((new BoolQuery())
             ->addMust($this->getTermQuery($keyword))
             ->addMust($this->getPrivacyQuery())
         );
-
-        return $this->finder->createPaginatorAdapter($query);
     }
 
     /**
@@ -56,9 +84,8 @@ class SearchManager
     {
         $query = new BoolQuery();
         $query->addShould(new Term(['private' => false]));
-
-        if ($this->user instanceof UserInterface) {
-            $query->addShould(new Term(['owner.id' => $this->user->getId()]));
+        if (($user = $this->tokenStorage->getToken()->getUser()) instanceof User) {
+            $query->addShould(new Term(['owner.id' => $user->getId()]));
         }
 
         return $query;
