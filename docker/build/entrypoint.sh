@@ -11,18 +11,18 @@ fi
 composer run-script post-install-cmd --no-interaction --no-dev
 
 # Delete cache created by root
-rm -rf app/cache/* app/logs/*
+rm -rf var/cache/* var/logs/*
 
 if [ "$1" = 'apache2ctl' ]; then
     # Let's time to other containers (i.e. mysql)
     sleep 5
 
     # Warmup cache
-    su www-data -s /bin/bash -c "app/console cache:warmup --no-interaction"
+    su www-data -s /bin/bash -c "bin/console cache:warmup --no-interaction"
 
     # Setup/update database
-    su www-data -s /bin/bash -c "app/console doctrine:database:create --no-interaction --if-not-exists"
-    su www-data -s /bin/bash -c "app/console doctrine:migrations:migrate --no-interaction"
+    su www-data -s /bin/bash -c "bin/console doctrine:database:create --no-interaction --if-not-exists"
+    su www-data -s /bin/bash -c "bin/console doctrine:migrations:migrate --no-interaction"
 
     # let's start apache as root
     exec "$@"
