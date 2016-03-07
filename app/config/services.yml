@@ -14,7 +14,7 @@ services:
 
     search_manager:
         class: AppBundle\Manager\SearchManager
-        arguments: ["@fos_elastica.finder.app.repository", "@security.token_storage"]
+        arguments: ["@datatheke.pager", "@fos_elastica.index.app.repository", "@security.token_storage"]
 
     repository_voter:
         class: AppBundle\Security\Voter\RepositoryVoter
@@ -27,11 +27,6 @@ services:
         arguments: ["@fos_elastica.object_persister.app.repository"]
         tags:
             - { name: doctrine.orm.entity_listener }
-
-    form.type.search:
-        class: AppBundle\Form\Type\SearchType
-        tags:
-            - {name: form.type}
 
     form.type.repository:
         class: AppBundle\Form\Type\RepositoryType

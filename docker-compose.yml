@@ -4,7 +4,7 @@ app:
     volumes:
         - .:/var/www/html
         # To speed up composer
-        #- ~/.composer:/var/www/.composer
+#        - ~/.composer:/var/www/.composer
 
     environment:
         - DOCKER_ENV=dev
@@ -54,9 +54,10 @@ workerwebhook:
         - app
     links:
         - rabbitmq:rabbitmq
+        - mariadb:db
     environment:
         - SYMFONY_ENV=dev
-    command: sleep 5 && app/console dunkerque:broker:setup && app/console swarrot:consume:webhook
+    command: sleep 5 && bin/console dunkerque:broker:setup && bin/console swarrot:consume:webhook
 
 elasticsearch:
     image: elasticsearch:1

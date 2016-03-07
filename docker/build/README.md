@@ -40,7 +40,7 @@ workerwebhook:
     links:
         - mariadb:db
         - rabbitmq:rabbitmq
-    command: sleep 5 && app/console dunkerque:broker:setup && app/console swarrot:consume:webhook
+    command: sleep 5 && bin/console dunkerque:broker:setup && bin/console swarrot:consume:webhook
 ```
 
 ### Update
@@ -56,7 +56,7 @@ docker-compose pull
 docker-compose up -d
 
 # Repopulate the elasticsearch index (used for the search)
-docker-compose run --rm -it app app/console fos:elastica:populate
+docker-compose run --rm app bin/console fos:elastica:populate
 ```
 
 ### Use your registry with docker

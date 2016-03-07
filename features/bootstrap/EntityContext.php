@@ -4,7 +4,6 @@ use AppBundle\Entity\Manifest;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Behat\Symfony2Extension\Context\KernelDictionary;
-use Elastica\Exception\ElasticsearchException;
 use Knp\FriendlyContexts\Context\EntityContext as BaseEntityContext;
 use Symfony\Component\Process\Process;
 
@@ -78,10 +77,10 @@ class EntityContext extends BaseEntityContext implements KernelAwareContext
      */
     public function entitiesAreIndexed()
     {
-        $process = new Process('app/console fos:elastica:populate');
+        $process = new Process('bin/console fos:elastica:populate');
         $process->run();
         if (!$process->isSuccessful()) {
-            throw new ElasticsearchException('Unable to populate elasticsearch');
+            throw new \RuntimeException('Unable to populate elasticsearch');
         }
     }
 }

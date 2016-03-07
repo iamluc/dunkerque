@@ -1,57 +1,42 @@
 {% extends 'layout.html.twig' %}
 
+{% import 'DatathekePagerBundle:Pager:bootstrap3.html.twig' as helper %}
 {% import 'macros.html.twig' as macros %}
 
 {% block content %}
-
     <h1>
-        {{ 'search.results_found'|transchoice(pagination.totalItemCount, { '%count%': pagination.totalItemCount, '%keyword%': keyword }) }}
+        {{ 'search.results_found'|transchoice(pager.totalItemCount, { '%count%': pager.totalItemCount, '%keyword%': keyword }) }}
     </h1>
 
-    {% if pagination.totalItemCount %}
+    {% if pager.totalItemCount %}
+        <form action="{{ pager_form_path(pager) }}" method="post">
+            {{ helper.toolbar(pager) }}
 
-        <div class="pull-right">
-            <div class="btn-group">
-                <a class="btn btn-default" href="">
-                    <span class="glyphicon glyphicon-refresh"></span>
-                    Refresh
-                </a>
-            </div>
-        </div>
-
-        <table class="table">
-            <thead>
-            <tr>
-                {% set sorts = ['name', 'stars', 'pulls', 'private'] %}
-                {% for field in sorts %}
-                    <th>
-                        <a href="{{ path(pagination.route, pagination.params|merge({ sort: field, direction: 'asc' == pagination.direction ? 'desc' : 'asc' })) }}">
-                            {{ ('repository.' ~ field)|trans() }}
-                            {% if pagination.isSorted(field) %}
-                                <span class="glyphicon glyphicon-chevron-{{ 'asc' == pagination.direction ? 'up' : 'down' }}"></span>
-                            {% endif %}
-                        </a>
-                    </th>
-                {% endfor %}
-            </tr>
-            </thead>
-            <tbody>
-            {% for repo in pagination %}
+            <table class="table">
+                <thead>
                 <tr>
-                    <td>
-                        <a href="{{ path('repository', {name: repo.name}) }}">{{ repo.name }}</a>
-                        <div><em>{{ repo.title }}</em></div>
-                    </td>
-                    <td>{{ repo.stars }} <span class="glyphicon glyphicon-star"></span></td>
-                    <td>{{ repo.pulls }} <span class="glyphicon glyphicon-download"></span></td>
-                    <td>{{ macros.repository_status(repo) }}</td>
+                    <th>{{ helper.orderBy(pager, 'name', 'repository.name'|trans) }}</th>
+                    <th>{{ helper.orderBy(pager, 'stars', 'repository.stars'|trans) }}</th>
+                    <th>{{ helper.orderBy(pager, 'pulls', 'repository.pulls'|trans) }}</th>
+                    <th>{{ helper.orderBy(pager, 'private', 'repository.is_private'|trans) }}</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for repo in pager.items %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('repository', {name: repo.name}) }}">{{ repo.name }}</a>
+                            <div><em>{{ repo.data.title  }}</em></div>
+                        </td>
+                        <td>{{ repo.data.stars }} <span class="glyphicon glyphicon-star"></span></td>
+                        <td>{{ repo.data.pulls }} <span class="glyphicon glyphicon-download"></span></td>
+                        <td>{{ macros.repository_status(repo) }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-        {{ knp_pagination_render(pagination) }}
-
+            {{ helper.paginate(pager) }}
+        </form>
     {% endif %}
-
 {% endblock %}

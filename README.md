@@ -38,14 +38,14 @@ docker-compose run --rm app openssl rsa -pubout -in var/jwt/private.pem -out var
 docker-compose run --rm app composer install
 
 # Initialize database
-docker-compose run --rm app app/console doctrine:database:create --if-not-exists
-docker-compose run --rm app app/console doctrine:migrations:migrate
+docker-compose run --rm app bin/console doctrine:database:create --if-not-exists
+docker-compose run --rm app bin/console doctrine:migrations:migrate
 
 # Initialize search
-docker-compose run --rm app app/console fos:elastica:populate
+docker-compose run --rm app bin/console fos:elastica:populate
 
 # Create a user
-docker-compose run --rm app app/console fos:user:create
+docker-compose run --rm app bin/console fos:user:create
 ```
 
 # Develop on Dunkerque

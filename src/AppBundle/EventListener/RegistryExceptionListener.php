@@ -26,6 +26,7 @@ class RegistryExceptionListener implements EventSubscriberInterface
 
         $exception = $event->getException();
         $code = $exception instanceof HttpException ? $exception->getStatusCode() : $exception->getCode();
+        $headers = $exception instanceof HttpException ? $exception->getHeaders() : [];
         $errorCode = isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : 'error';
 
         $response = new JsonResponse([
@@ -36,7 +37,7 @@ class RegistryExceptionListener implements EventSubscriberInterface
                     'message' => $exception->getMessage(),
                 ],
             ],
-        ], $code, $exception->getHeaders());
+        ], $code, $headers);
 
         $event->setResponse($response);
     }
