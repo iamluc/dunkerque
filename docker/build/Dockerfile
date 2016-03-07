@@ -5,9 +5,9 @@ MAINTAINER Luc Vieillescazes <luc@vieillescazes.net>
 RUN rm index.html \
   && wget -O - https://github.com/iamluc/dunkerque/archive/master.tar.gz | tar xz --strip 1 \
   && composer install --no-interaction --no-dev --no-scripts \
-  && rm -Rf app/cache/* app/logs/* .composer web/app_dev.php \
+  && rm -Rf var/cache/* var/logs/* .composer web/app_dev.php web/config.php \
   && mkdir /data \
-  && chown www-data:www-data app/cache app/logs /data
+  && chown www-data:www-data var/cache var/logs /data
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
