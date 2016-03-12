@@ -18,7 +18,7 @@ class SearchController extends Controller
      */
     public function search(Request $request)
     {
-        $keyword = $request->query->get('q', null);
+        $keyword = $request->query->get('q', '');
 
         /** @var HttpPagerInterface $pager */
         $pager = $this->get('search_manager')->createPager($keyword);
