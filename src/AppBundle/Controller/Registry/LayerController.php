@@ -33,21 +33,19 @@ class LayerController extends Controller
     {
         // FIXME: check that the layer belongs to the repository ?
 
+        $headers = [
+            'Docker-Content-Digest' => $layer->getDigest(),
+            'Content-Length' => $this->get('layer_manager')->getSize($layer),
+            'Content-Type' => 'application/octet-stream',
+        ];
+
         if ($request->isMethod('HEAD')) {
-            return new Response('', Response::HTTP_OK, [
-                'Docker-Content-Digest' => $layer->getDigest(),
-                'Content-Length' => $this->get('layer_manager')->getSize($layer),
-            ], Response::HTTP_OK, [
-                'Docker-Content-Digest' => $layer->getDigest(),
-            ]);
+            return new Response('', Response::HTTP_OK, $headers);
         }
 
         return new StreamedResponse(function () use ($layer) {
             fpassthru($this->get('layer_manager')->read($layer));
-        }, Response::HTTP_OK, [
-            'Docker-Content-Digest' => $layer->getDigest(),
-            'Content-Length' => $this->get('layer_manager')->getSize($layer),
-        ]);
+        }, Response::HTTP_OK, $headers);
     }
 
     /**
